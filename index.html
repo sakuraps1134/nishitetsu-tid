@@ -852,17 +852,22 @@
 
       const icon = document.createElement("div");
 
+      // 遅延分数の取得（数字以外の文字を取り除いて数値化）
       let delayVal = 0;
       if (trains.length === 1) {
-        delayVal = parseInt(trains[0].delay || trains[0].delayTime || 0, 10);
+        const rawDelay = trains[0].delayMinutes || trains[0].delayTime || trains[0].delay || "0";
+        delayVal = parseInt(String(rawDelay).replace(/[^0-9]/g, ''), 10) || 0;
       }
-      const delayBadgeHtml = delayVal > 0 ? `<div class="delay-badge">+${delayVal}</div>` : "";
+      
+      // 遅延バッジ（1分以上の場合に表示）
+      const delayBadgeHtml = delayVal > 0 ? `<div class="delay-badge">遅${delayVal}分</div>` : "";
 
       if (trains.length > 1) {
         icon.className = `train-icon ${dirClass} color-multi`;
         const details = trains.map(t => `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`).join("\n");
         icon.title = `【${trains.length}本重複】\n${details}`;
         icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
+        
         wrapper.appendChild(icon);
       } else {
         const info = trains[0];
@@ -880,23 +885,16 @@
 
         icon.innerHTML = isUp ? `${carsBadge}${destBox}${numberBox}` : `${numberBox}${destBox}${carsBadge}`;
 
-        if (isUp) {
-          wrapper.appendChild(icon);
-          if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
-        } else {
-          if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
-          wrapper.appendChild(icon);
+        // 遅延バッジがあればアイコンの上に配置し、その下にアイコンを追加
+        if (delayBadgeHtml) {
+          wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
         }
+        wrapper.appendChild(icon);
 
         wrapper.onclick = (e) => {
           e.stopPropagation();
           openDetailModal(info);
         };
-        wrapper.innerHTML = "";
-if (delayBadgeHtml) {
-  wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
-}
-wrapper.appendChild(icon);
       }
 
       targetCell.appendChild(wrapper);
