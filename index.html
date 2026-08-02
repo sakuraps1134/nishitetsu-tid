@@ -34,20 +34,29 @@
       font-family: 'Inter', 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding: 10px 5px;
+      padding: 0 5px 10px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ① ヘッダーの固定表示（sticky） */
     header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background-color: rgba(248, 250, 252, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 8px 0;
       margin-bottom: 10px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
+      border-bottom: 1px solid #e2e8f0;
     }
 
     h2 {
@@ -84,6 +93,30 @@
     }
 
     .reload-btn:hover { background-color: #334155; }
+
+    /* ③ ヘッダーの警告バッジ（赤背景白文字） */
+    .header-alerts {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .alert-badge {
+      background-color: #dc2626;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
 
     /* 路線図全体コンテナ */
     .diagram-container {
@@ -137,10 +170,7 @@
       z-index: 1;
     }
 
-    /* --------------------------------------------------
-       ① 単線区間の描画修正
-    -------------------------------------------------- */
-    /* 通常の2本線を非表示 */
+    /* 単線区間の描画 */
     .grid-row.is-single-track .track-cell::before {
       display: none;
     }
@@ -149,7 +179,6 @@
       background-color: var(--single-track-bg);
     }
 
-    /* 中央の1本線（オレンジ）を正しく真ん中に描画 */
     .grid-row.is-single-track .station-center-cell::before {
       content: '';
       position: absolute;
@@ -176,12 +205,13 @@
       z-index: 2;
     }
 
+    /* ② 駅アイコン（円形）と文字の拡大 */
     .station-node {
-      width: 10px;
-      height: 10px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
       background-color: var(--card-bg);
-      border: 2px solid #475569;
+      border: 3px solid #334155;
       z-index: 3;
     }
 
@@ -191,30 +221,33 @@
       transform: translateX(-50%);
       text-align: center;
       white-space: nowrap;
-      background: rgba(255, 255, 255, 0.92);
-      padding: 0px 4px;
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1px 6px;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
     .station-number {
       display: inline-block;
       background: #0284c7;
       color: #fff;
-      font-size: 0.58rem;
+      font-size: 0.68rem; /* 大きく設定 */
       font-weight: 800;
-      padding: 0px 3px;
-      border-radius: 2px;
+      padding: 1px 4px;
+      border-radius: 3px;
       font-family: 'Inter', sans-serif;
     }
 
     .station-name {
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.88rem; /* 大きく設定 */
+      font-weight: 800;
       color: var(--station-text);
       text-decoration: underline;
-      text-underline-offset: 1px;
-      margin-left: 2px;
+      text-underline-offset: 2px;
     }
 
     .station-row .track-cell::after {
@@ -228,9 +261,7 @@
       z-index: 1;
     }
 
-    /* --------------------------------------------------
-       列車アイコン & 遅延表示
-    -------------------------------------------------- */
+    /* 列車アイコン & 遅延表示 */
     .train-wrapper {
       position: relative;
       display: flex;
@@ -240,12 +271,10 @@
       z-index: 10;
     }
 
-    /* 単線駅間の背景線の上に重ねるため */
     .single-section-center .train-wrapper {
       z-index: 10;
     }
 
-    /* ③ 遅延バッジ（+3 など） */
     .delay-badge {
       color: #dc2626;
       font-size: 0.7rem;
@@ -335,6 +364,8 @@
       <button class="reload-btn" onclick="manualReload()">↺ リロード</button>
       <div class="status-bar" id="statusBar">データ取得中...</div>
     </div>
+    <!-- ③ 警告バッジコンテナ -->
+    <div class="header-alerts" id="headerAlerts"></div>
   </header>
 
   <div class="diagram-container">
@@ -411,12 +442,10 @@
     const ALPHA_MAP = { '1':'A', '7':'G', 'A':'J', 'B':'K', 'C':'L', 'D':'H', '5':'S' };
     const TYPE_PRIORITY = { 'ltd': 3, 'exp': 2, 'loc': 1 };
 
-    // 単線区間チェック (聖マリア85〜大善寺94 / 矢加部112〜開130)
     function isSingleTrackRow(row) {
       return (row >= 85 && row <= 94) || (row >= 112 && row <= 130);
     }
 
-    // 駅rowかどうか判定
     const stationRowSet = new Set(STATIONS.map(s => s.row));
     function isStationRow(row) {
       return stationRowSet.has(row);
@@ -493,6 +522,7 @@
 
     async function fetchAndRender() {
       const statusBar = document.getElementById("statusBar");
+      const headerAlerts = document.getElementById("headerAlerts");
       const scrollPos = window.scrollY;
 
       try {
@@ -501,12 +531,13 @@
 
         if (data && data.locationObjects) {
           const rowGroups = {};
+          let hasSevereDelay = false;   // 10分以上の遅延フラグ
+          let hasExtraTrain = false;    // 臨時列車（2桁目が9, 4, D）フラグ
 
           data.locationObjects.forEach(loc => {
             const row = parseInt(loc.locationRow, 10);
             const col = parseInt(loc.locationCol, 10);
 
-            // ② colが5,6の列車は除外（1~4のみ許可）
             if (row === 0 || isNaN(row) || col < 1 || col > 4) return;
 
             if (!rowGroups[row]) {
@@ -514,12 +545,39 @@
             }
 
             const trains = loc.trainInfoObjects || [];
+
+            // 全列車チェック（遅延＆臨時列車判定）
+            trains.forEach(t => {
+              // 遅延チェック (10分以上)
+              const d = parseInt(t.delay || t.delayTime || 0, 10);
+              if (d >= 10) hasSevereDelay = true;
+
+              // 臨時列車チェック (フォーマット済み列車番号の2桁目「インデックス1」)
+              const formattedNum = formatTrainNumber(t.trainNumber);
+              if (formattedNum.length >= 2) {
+                const char2 = formattedNum.charAt(1);
+                if (char2 === '9' || char2 === '4' || char2 === 'D') {
+                  hasExtraTrain = true;
+                }
+              }
+            });
+
             if (loc.trainDirection === "1") {
               rowGroups[row].up.push(...trains);
             } else {
               rowGroups[row].down.push(...trains);
             }
           });
+
+          // ③ ヘッダーの警告バッジの表示制御
+          let alertHtml = "";
+          if (hasSevereDelay) {
+            alertHtml += `<div class="alert-badge">⚠️ 遅延発生</div>`;
+          }
+          if (hasExtraTrain) {
+            alertHtml += `<div class="alert-badge">⚠️ 臨時列車在線</div>`;
+          }
+          headerAlerts.innerHTML = alertHtml;
 
           let totalCount = 0;
 
@@ -529,17 +587,14 @@
             const isSingle = isSingleTrackRow(row);
             const isStation = isStationRow(row);
 
-            // ① 単線区間の「駅間（非駅）」は col に関わらず全て中央に配置
             if (isSingle && !isStation) {
               const allTrains = [...group.up, ...group.down];
               if (allTrains.length > 0) {
                 totalCount += allTrains.length;
-                // 最初に見つかった列車の向き（上りか下りか）
                 const isUp = group.up.length > 0;
                 renderIconToCell(row, "center", allTrains, isUp);
               }
             } else {
-              // 通常区間または単線区間の「駅（交換可能）」
               if (group.up.length > 0) {
                 totalCount += group.up.length;
                 group.up.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
@@ -583,7 +638,6 @@
       }
     }
 
-    // アイコンDOM挿入処理
     function renderIconToCell(row, targetCol, trains, isUp) {
       let targetCell = null;
       if (targetCol === "center") {
@@ -596,13 +650,11 @@
 
       const dirClass = isUp ? "train-up" : "train-down";
 
-      // 全体のラッパー（遅延バッジ＋アイコン用）
       const wrapper = document.createElement("div");
       wrapper.className = "train-wrapper";
 
       const icon = document.createElement("div");
 
-      // ③ 遅延（delay）テキスト構築
       let delayVal = 0;
       if (trains.length === 1) {
         delayVal = parseInt(trains[0].delay || trains[0].delayTime || 0, 10);
@@ -610,7 +662,6 @@
       const delayBadgeHtml = delayVal > 0 ? `<div class="delay-badge">+${delayVal}</div>` : "";
 
       if (trains.length > 1) {
-        // 重複時
         icon.className = `train-icon ${dirClass} color-multi`;
         const details = trains.map(t => `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`).join("\n");
         icon.title = `【${trains.length}本重複】\n${details}`;
@@ -618,7 +669,6 @@
 
         wrapper.appendChild(icon);
       } else {
-        // 通常（単一列車）
         const info = trains[0];
         const colorType = info.trainColorType || "loc";
         const formattedTrainNum = formatTrainNumber(info.trainNumber);
@@ -634,7 +684,6 @@
 
         icon.innerHTML = isUp ? `${carsBadge}${destBox}${numberBox}` : `${numberBox}${destBox}${carsBadge}`;
 
-        // ③ 遅延バッジの配置位置（下りはアイコンの上、上りはアイコンの下）
         if (isUp) {
           wrapper.appendChild(icon);
           if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
