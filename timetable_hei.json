@@ -55228,5 +55228,1556 @@
       "arrive": "00:03",
       "depart": null
     }
+  ],
+  "6550": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "05:26"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "05:28",
+      "depart": "05:28"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "05:33",
+      "depart": null
+    }
+  ],
+  "6552": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "05:52"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "05:54",
+      "depart": "05:54"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "05:58",
+      "depart": null
+    }
+  ],
+  "6560": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "06:15"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "06:17",
+      "depart": "06:17"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "06:21",
+      "depart": null
+    }
+  ],
+  "6562": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "06:27"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "06:28",
+      "depart": "06:29"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "06:33",
+      "depart": null
+    }
+  ],
+  "6564": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "06:39"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "06:41",
+      "depart": "06:41"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "06:45",
+      "depart": null
+    }
+  ],
+  "6566": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "06:50"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "06:52",
+      "depart": "06:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "06:57",
+      "depart": null
+    }
+  ],
+  "6570": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "07:02"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "07:04",
+      "depart": "07:05"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "07:09",
+      "depart": null
+    }
+  ],
+  "6572": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "07:14"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "07:16",
+      "depart": "07:17"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "07:21",
+      "depart": null
+    }
+  ],
+  "6574": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "07:26"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "07:28",
+      "depart": "07:29"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "07:33",
+      "depart": null
+    }
+  ],
+  "6576": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "07:38"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "07:40",
+      "depart": "07:41"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "07:45",
+      "depart": null
+    }
+  ],
+  "6578": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "07:50"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "07:52",
+      "depart": "07:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "07:57",
+      "depart": null
+    }
+  ],
+  "6580": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "08:06"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "08:08",
+      "depart": "08:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "08:12",
+      "depart": null
+    }
+  ],
+  "6582": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "08:17"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "08:19",
+      "depart": "08:20"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "08:24",
+      "depart": null
+    }
+  ],
+  "6584": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "08:29"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "08:31",
+      "depart": "08:32"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "08:36",
+      "depart": null
+    }
+  ],
+  "6586": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "08:41"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "08:43",
+      "depart": "08:44"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "08:48",
+      "depart": null
+    }
+  ],
+  "6588": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "08:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "08:55",
+      "depart": "08:56"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "09:00",
+      "depart": null
+    }
+  ],
+  "6590": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "09:05"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "09:07",
+      "depart": "09:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "09:12",
+      "depart": null
+    }
+  ],
+  "6592": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "09:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "09:25",
+      "depart": "09:26"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "09:30",
+      "depart": null
+    }
+  ],
+  "6594": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "09:41"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "09:43",
+      "depart": "09:43"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "09:47",
+      "depart": null
+    }
+  ],
+  "6090": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "09:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "09:54",
+      "depart": "09:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "09:59",
+      "depart": "10:00"
+    },
+    {
+      "station": "紫",
+      "arrive": "10:01",
+      "depart": "10:01"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "10:04",
+      "depart": "10:04"
+    },
+    {
+      "station": "桜台",
+      "arrive": "10:06",
+      "depart": "10:06"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "10:08",
+      "depart": "10:09"
+    },
+    {
+      "station": "津古",
+      "arrive": "10:12",
+      "depart": "10:12"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "10:14",
+      "depart": "10:14"
+    },
+    {
+      "station": "三沢",
+      "arrive": "10:16",
+      "depart": "10:16"
+    },
+    {
+      "station": "大保",
+      "arrive": "10:18",
+      "depart": "10:18"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "10:22",
+      "depart": null
+    }
+  ],
+  "6500": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "10:11"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "10:13",
+      "depart": "10:13"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "10:17",
+      "depart": null
+    }
+  ],
+  "6100": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "10:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "10:24",
+      "depart": "10:25"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "10:29",
+      "depart": "10:30"
+    },
+    {
+      "station": "紫",
+      "arrive": "10:31",
+      "depart": "10:31"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "10:34",
+      "depart": "10:34"
+    },
+    {
+      "station": "桜台",
+      "arrive": "10:36",
+      "depart": "10:36"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "10:38",
+      "depart": "10:39"
+    },
+    {
+      "station": "津古",
+      "arrive": "10:42",
+      "depart": "10:42"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "10:44",
+      "depart": "10:44"
+    },
+    {
+      "station": "三沢",
+      "arrive": "10:46",
+      "depart": "10:46"
+    },
+    {
+      "station": "大保",
+      "arrive": "10:48",
+      "depart": "10:48"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "10:52",
+      "depart": null
+    }
+  ],
+  "6502": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "10:41"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "10:43",
+      "depart": "10:43"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "10:47",
+      "depart": null
+    }
+  ],
+  "6102": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "10:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "10:54",
+      "depart": "10:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "10:59",
+      "depart": "11:00"
+    },
+    {
+      "station": "紫",
+      "arrive": "11:01",
+      "depart": "11:01"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "11:04",
+      "depart": "11:04"
+    },
+    {
+      "station": "桜台",
+      "arrive": "11:06",
+      "depart": "11:06"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "11:08",
+      "depart": "11:09"
+    },
+    {
+      "station": "津古",
+      "arrive": "11:12",
+      "depart": "11:12"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "11:14",
+      "depart": "11:14"
+    },
+    {
+      "station": "三沢",
+      "arrive": "11:16",
+      "depart": "11:16"
+    },
+    {
+      "station": "大保",
+      "arrive": "11:18",
+      "depart": "11:18"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "11:22",
+      "depart": null
+    }
+  ],
+  "6510": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "11:11"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "11:13",
+      "depart": "11:13"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "11:17",
+      "depart": null
+    }
+  ],
+  "6110": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "11:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "11:24",
+      "depart": "11:25"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "11:29",
+      "depart": "11:30"
+    },
+    {
+      "station": "紫",
+      "arrive": "11:31",
+      "depart": "11:31"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "11:34",
+      "depart": "11:34"
+    },
+    {
+      "station": "桜台",
+      "arrive": "11:36",
+      "depart": "11:36"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "11:38",
+      "depart": "11:39"
+    },
+    {
+      "station": "津古",
+      "arrive": "11:42",
+      "depart": "11:42"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "11:44",
+      "depart": "11:44"
+    },
+    {
+      "station": "三沢",
+      "arrive": "11:46",
+      "depart": "11:46"
+    },
+    {
+      "station": "大保",
+      "arrive": "11:48",
+      "depart": "11:48"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "11:52",
+      "depart": null
+    }
+  ],
+  "6512": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "11:41"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "11:43",
+      "depart": "11:43"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "11:47",
+      "depart": null
+    }
+  ],
+  "6112": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "11:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "11:54",
+      "depart": "11:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "11:59",
+      "depart": "12:00"
+    },
+    {
+      "station": "紫",
+      "arrive": "12:01",
+      "depart": "12:01"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "12:04",
+      "depart": "12:04"
+    },
+    {
+      "station": "桜台",
+      "arrive": "12:06",
+      "depart": "12:06"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "12:08",
+      "depart": "12:09"
+    },
+    {
+      "station": "津古",
+      "arrive": "12:12",
+      "depart": "12:12"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "12:14",
+      "depart": "12:14"
+    },
+    {
+      "station": "三沢",
+      "arrive": "12:16",
+      "depart": "12:16"
+    },
+    {
+      "station": "大保",
+      "arrive": "12:18",
+      "depart": "12:18"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "12:22",
+      "depart": null
+    }
+  ],
+  "6520": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "12:11"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "12:13",
+      "depart": "12:13"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "12:17",
+      "depart": null
+    }
+  ],
+  "6120": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "12:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "12:24",
+      "depart": "12:25"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "12:29",
+      "depart": null
+    }
+  ],
+  "6522": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "12:34"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "12:36",
+      "depart": "12:37"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "12:41",
+      "depart": null
+    }
+  ],
+  "6122": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "12:52"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "12:54",
+      "depart": "12:54"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "12:58",
+      "depart": null
+    }
+  ],
+  "6530": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "13:04"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "13:05",
+      "depart": "13:06"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "13:10",
+      "depart": null
+    }
+  ],
+  "6130": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "13:21"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "13:23",
+      "depart": "13:23"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "13:27",
+      "depart": null
+    }
+  ],
+  "6532": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "13:33"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "13:35",
+      "depart": "13:36"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "13:40",
+      "depart": null
+    }
+  ],
+  "6132": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "13:51"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "13:53",
+      "depart": "13:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "13:57",
+      "depart": null
+    }
+  ],
+  "6540": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "14:03"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "14:05",
+      "depart": "14:06"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "14:10",
+      "depart": null
+    }
+  ],
+  "6140": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "14:21"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "14:23",
+      "depart": "14:23"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "14:27",
+      "depart": null
+    }
+  ],
+  "6542": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "14:33"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "14:35",
+      "depart": "14:36"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "14:40",
+      "depart": null
+    }
+  ],
+  "6142": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "14:51"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "14:53",
+      "depart": "14:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "14:57",
+      "depart": null
+    }
+  ],
+  "6650": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "15:03"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "15:05",
+      "depart": "15:06"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "15:10",
+      "depart": null
+    }
+  ],
+  "6150": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "15:21"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "15:23",
+      "depart": "15:23"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "15:27",
+      "depart": null
+    }
+  ],
+  "6652": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "15:33"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "15:35",
+      "depart": "15:36"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "15:40",
+      "depart": null
+    }
+  ],
+  "6152": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "15:51"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "15:53",
+      "depart": "15:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "15:57",
+      "depart": null
+    }
+  ],
+  "6660": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "16:03"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "16:05",
+      "depart": "16:06"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "16:10",
+      "depart": null
+    }
+  ],
+  "6160": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "16:21"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "16:23",
+      "depart": "16:23"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "16:27",
+      "depart": null
+    }
+  ],
+  "6662": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "16:33"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "16:35",
+      "depart": "16:36"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "16:40",
+      "depart": null
+    }
+  ],
+  "6162": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "16:50"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "16:52",
+      "depart": "16:52"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "16:56",
+      "depart": null
+    }
+  ],
+  "6670": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "17:01"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "17:03",
+      "depart": "17:03"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "17:07",
+      "depart": null
+    }
+  ],
+  "6672": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "17:12"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "17:14",
+      "depart": "17:15"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "17:19",
+      "depart": null
+    }
+  ],
+  "6674": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "17:24"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "17:26",
+      "depart": "17:27"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "17:31",
+      "depart": null
+    }
+  ],
+  "6676": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "17:36"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "17:38",
+      "depart": "17:39"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "17:43",
+      "depart": null
+    }
+  ],
+  "6678": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "17:49"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "17:51",
+      "depart": "17:51"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "17:55",
+      "depart": null
+    }
+  ],
+  "6680": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "18:01"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "18:03",
+      "depart": "18:03"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "18:07",
+      "depart": null
+    }
+  ],
+  "6682": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "18:12"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "18:14",
+      "depart": "18:15"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "18:19",
+      "depart": null
+    }
+  ],
+  "6684": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "18:24"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "18:26",
+      "depart": "18:27"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "18:31",
+      "depart": null
+    }
+  ],
+  "6686": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "18:36"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "18:38",
+      "depart": "18:39"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "18:43",
+      "depart": null
+    }
+  ],
+  "6688": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "18:49"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "18:51",
+      "depart": "18:51"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "18:55",
+      "depart": null
+    }
+  ],
+  "6690": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "19:05"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "19:07",
+      "depart": "19:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "19:12",
+      "depart": null
+    }
+  ],
+  "6692": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "19:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "19:24",
+      "depart": "19:25"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "19:29",
+      "depart": null
+    }
+  ],
+  "6694": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "19:35"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "19:37",
+      "depart": "19:38"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "19:42",
+      "depart": null
+    }
+  ],
+  "6696": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "19:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "19:54",
+      "depart": "19:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "19:59",
+      "depart": null
+    }
+  ],
+  "6600": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "20:05"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "20:07",
+      "depart": "20:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "20:12",
+      "depart": null
+    }
+  ],
+  "6602": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "20:23"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "20:24",
+      "depart": "20:25"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "20:29",
+      "depart": null
+    }
+  ],
+  "6604": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "20:35"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "20:37",
+      "depart": "20:38"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "20:42",
+      "depart": null
+    }
+  ],
+  "6606": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "20:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "20:54",
+      "depart": "20:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "20:59",
+      "depart": null
+    }
+  ],
+  "6610": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "21:05"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "21:07",
+      "depart": "21:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "21:12",
+      "depart": null
+    }
+  ],
+  "6612": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "21:24"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "21:26",
+      "depart": "21:26"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "21:31",
+      "depart": null
+    }
+  ],
+  "6614": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "21:37"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "21:38",
+      "depart": "21:39"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "21:43",
+      "depart": null
+    }
+  ],
+  "6616": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "21:54"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "21:56",
+      "depart": "21:56"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "22:01",
+      "depart": null
+    }
+  ],
+  "6620": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "22:07"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "22:08",
+      "depart": "22:09"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "22:13",
+      "depart": null
+    }
+  ],
+  "6622": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "22:24"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "22:26",
+      "depart": "22:26"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "22:31",
+      "depart": null
+    }
+  ],
+  "6624": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "22:37"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "22:38",
+      "depart": "22:39"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "22:43",
+      "depart": null
+    }
+  ],
+  "6626": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "22:51"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "22:53",
+      "depart": "22:53"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "22:57",
+      "depart": null
+    }
+  ],
+  "6630": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "23:05"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "23:07",
+      "depart": "23:08"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "23:12",
+      "depart": null
+    }
+  ],
+  "6632": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "23:21"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "23:22",
+      "depart": "23:23"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "23:27",
+      "depart": null
+    }
+  ],
+  "6634": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "23:32"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "23:33",
+      "depart": "23:34"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "23:38",
+      "depart": null
+    }
+  ],
+  "6636": [
+    {
+      "station": "太宰府",
+      "arrive": null,
+      "depart": "23:53"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "23:55",
+      "depart": "23:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "23:59",
+      "depart": null
+    }
   ]
 }
