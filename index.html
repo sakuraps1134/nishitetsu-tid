@@ -14,14 +14,14 @@
       --text-sub: #64748b;
       --station-text: #008060;
       --line-color: #94a3b8;
-      --station-circle-bg: #ffffff;
-      --station-circle-border: #475569;
+      --single-track-bg: rgba(245, 158, 11, 0.08); /* 単線区間の背景色 */
+      --single-track-line: #f59e0b; /* 単線区間の線路色 */
 
       /* 種別カラー */
       --color-loc: #0284c7; /* 青（普通） */
       --color-exp: #16a34a; /* 緑（急行） */
       --color-ltd: #dc2626; /* 赤（特急） */
-      --color-def: #64748b; /* デフォルト（重複時・灰色） */
+      --color-def: #64748b; /* 重複時・灰色 */
     }
 
     * {
@@ -34,7 +34,7 @@
       font-family: 'Inter', 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding: 20px 10px;
+      padding: 10px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,16 +42,16 @@
     }
 
     header {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     h2 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
@@ -59,63 +59,55 @@
     .status-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .status-bar {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-sub);
     }
 
-    /* データリロードボタン */
     .reload-btn {
       background-color: #0f172a;
       color: #ffffff;
       border: none;
-      padding: 6px 14px;
-      font-size: 0.8rem;
+      padding: 4px 12px;
+      font-size: 0.75rem;
       font-weight: 700;
-      border-radius: 20px;
+      border-radius: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
       transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .reload-btn:hover {
-      background-color: #334155;
-      transform: translateY(-1px);
-    }
-
-    .reload-btn:active {
-      transform: translateY(0);
-    }
+    .reload-btn:hover { background-color: #334155; }
 
     /* 路線図全体コンテナ */
     .diagram-container {
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 20px 10px;
+      border-radius: 8px;
+      padding: 10px 4px;
       background: var(--card-bg);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .terminals {
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-sub);
-      padding: 4px 0;
+      padding: 2px 0;
     }
 
     /* グリッドレイアウト */
     .diagram-grid {
       display: grid;
-      grid-template-columns: 60px 60px 180px 60px 60px;
+      grid-template-columns: 46px 46px 150px 46px 46px;
       justify-content: center;
       row-gap: 0px;
     }
@@ -124,36 +116,52 @@
       display: contents;
     }
 
+    /* 高さを76px → 48pxへ圧縮 */
     .grid-cell {
-      height: 76px;
+      height: 48px;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* 縦の線路（通常時） */
+    /* 通常の複線・線路 */
     .track-cell::before {
       content: '';
       position: absolute;
       top: 0;
       bottom: 0;
       left: 50%;
-      width: 3px;
+      width: 2px;
       background-color: var(--line-color);
       transform: translateX(-50%);
       z-index: 1;
     }
 
-    /* 始点（天神・row1）の線路：上半分を消す */
-    .grid-row[data-row="1"] .track-cell::before {
-      top: 50%;
+    /* 単線区間の描画スタイル */
+    .grid-row.is-single-track .track-cell::before {
+      display: none; /* 個別線を消して中央1本にする */
     }
 
-    /* 終点（大牟田・row148）の線路：下半分を消す */
-    .grid-row[data-row="148"] .track-cell::before {
-      bottom: 50%;
+    .grid-row.is-single-track .grid-cell {
+      background-color: var(--single-track-bg);
     }
+
+    /* 単線区間の中央1本線（Col2とCol3の境目に表示） */
+    .grid-row.is-single-track .grid-cell[data-col="2"]::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -1px;
+      width: 3px;
+      background-color: var(--single-track-line);
+      z-index: 1;
+    }
+
+    /* 始点・終点の端線切断 */
+    .grid-row[data-row="1"] .track-cell::before { top: 50%; }
+    .grid-row[data-row="148"] .track-cell::before { bottom: 50%; }
 
     /* 中央の駅セル */
     .station-center-cell {
@@ -165,26 +173,24 @@
       z-index: 2;
     }
 
-    /* 駅の「○」シンボル */
     .station-node {
-      width: 14px;
-      height: 14px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background-color: var(--station-circle-bg);
-      border: 3px solid var(--station-circle-border);
+      background-color: var(--card-bg);
+      border: 2px solid #475569;
       z-index: 3;
     }
 
-    /* 駅名とナンバリング */
     .station-info {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
       white-space: nowrap;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 1px 6px;
-      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0px 4px;
+      border-radius: 3px;
       z-index: 4;
     }
 
@@ -192,102 +198,80 @@
       display: inline-block;
       background: #0284c7;
       color: #fff;
-      font-size: 0.65rem;
+      font-size: 0.58rem;
       font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 3px;
+      padding: 0px 3px;
+      border-radius: 2px;
       font-family: 'Inter', sans-serif;
     }
 
     .station-name {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--station-text);
       text-decoration: underline;
-      text-underline-offset: 2px;
-      margin-left: 3px;
+      text-underline-offset: 1px;
+      margin-left: 2px;
     }
 
-    /* 横断線（駅の水平線） */
     .station-row .track-cell::after {
       content: '';
       position: absolute;
       top: 50%;
       width: 100%;
-      height: 2px;
+      height: 1px;
       background-color: #cbd5e1;
       transform: translateY(-50%);
       z-index: 1;
     }
 
     /* --------------------------------------------------
-       列車アイコン
+       列車アイコン（コンパクト化）
     -------------------------------------------------- */
     .train-icon {
       position: relative;
       z-index: 10;
-      width: 52px;
-      height: 68px;
+      width: 42px;
+      height: 44px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      border: 2px solid transparent;
+      border: 1px solid transparent;
       box-sizing: border-box;
-      filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
+      filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.25));
     }
 
-    /* 種別ごとのスタイル */
-    .train-icon.color-loc {
-      border-color: var(--color-loc);
-      background-color: var(--color-loc);
-      color: var(--color-loc);
-    }
-    .train-icon.color-exp {
-      border-color: var(--color-exp);
-      background-color: var(--color-exp);
-      color: var(--color-exp);
-    }
-    .train-icon.color-ltd {
-      border-color: var(--color-ltd);
-      background-color: var(--color-ltd);
-      color: var(--color-ltd);
-    }
-    .train-icon.color-def, .train-icon.color-multi {
-      border-color: var(--color-def);
-      background-color: var(--color-def);
-      color: var(--color-def);
-    }
+    .train-icon.color-loc { border-color: var(--color-loc); background-color: var(--color-loc); color: var(--color-loc); }
+    .train-icon.color-exp { border-color: var(--color-exp); background-color: var(--color-exp); color: var(--color-exp); }
+    .train-icon.color-ltd { border-color: var(--color-ltd); background-color: var(--color-ltd); color: var(--color-ltd); }
+    .train-icon.color-def, .train-icon.color-multi { border-color: var(--color-def); background-color: var(--color-def); color: var(--color-def); }
 
-    /* --- 下り（尖りが下） --- */
     .train-icon.train-down {
       clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
-      padding-bottom: 6px;
+      padding-bottom: 3px;
     }
 
-    /* --- 上り（尖りが上） --- */
     .train-icon.train-up {
       clip-path: polygon(50% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);
-      padding-top: 6px;
+      padding-top: 3px;
     }
 
-    /* 列車番号部分 */
     .train-number-box {
       width: 100%;
       background-color: #ffffff;
-      font-size: 0.75rem;
+      font-size: 0.6rem;
       font-weight: 800;
       text-align: center;
-      padding: 1px 0;
+      padding: 0px 0;
       line-height: 1.1;
       color: inherit;
       font-family: 'Inter', sans-serif;
     }
 
-    /* 行先名 */
     .train-dest-box {
       color: #ffffff;
-      font-size: 0.85rem;
+      font-size: 0.68rem;
       font-weight: 700;
       text-align: center;
       line-height: 1;
@@ -295,29 +279,24 @@
       margin: auto 0;
     }
 
-    /* 車両数＋ドア数バッジ */
     .train-cars-badge {
       background-color: #ffffff;
       color: #000000;
-      font-size: 0.7rem;
+      font-size: 0.58rem;
       font-weight: 800;
-      padding: 0px 8px;
-      border-radius: 10px;
-      line-height: 1.2;
+      padding: 0px 5px;
+      border-radius: 8px;
+      line-height: 1.1;
       border: 1px solid #e2e8f0;
       font-family: 'Inter', sans-serif;
     }
 
-    /* --- 重複アイコン時（件数表示） --- */
     .train-icon.color-multi .multi-count-box {
       color: #ffffff;
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       font-weight: 900;
       font-family: 'Inter', sans-serif;
       margin: auto 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   </style>
 </head>
@@ -326,23 +305,18 @@
   <header>
     <h2>西鉄天神大牟田線 列車位置</h2>
     <div class="status-container">
-      <button class="reload-btn" id="reloadBtn" onclick="manualReload()">
-        ↺ リロード
-      </button>
+      <button class="reload-btn" onclick="manualReload()">↺ リロード</button>
       <div class="status-bar" id="statusBar">データ取得中...</div>
     </div>
   </header>
 
   <div class="diagram-container">
     <div class="terminals">▲ 西鉄福岡（天神）</div>
-    
     <div class="diagram-grid" id="diagramGrid"></div>
-
-    <div class="terminals" style="margin-top: 10px;">▼ 大牟田</div>
+    <div class="terminals" style="margin-top: 6px;">▼ 大牟田</div>
   </div>
 
   <script>
-    // --- 1. 本線 50駅の定義 ---
     const STATIONS = [
       { row: 1, name: "西鉄福岡(天神)", num: "T01" },
       { row: 4, name: "薬院", num: "T02" },
@@ -399,7 +373,6 @@
     const TOTAL_ROWS = 148;
     const TARGET_API = "https://busnavi-railway.nnr.co.jp/tenjin_omuta/tenjin-omuta.json";
 
-    // 5系統のCORSプロキシ
     const PROXY_GENERATORS = [
       (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
       (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
@@ -408,68 +381,50 @@
       (url) => `https://jsonp.afeld.me/?url=${encodeURIComponent(url)}`
     ];
 
-    const ALPHA_MAP = {
-      '1': 'A', '7': 'G', 'A': 'J', 'B': 'K', 'C': 'L', 'D': 'H', '5': 'S'
-    };
+    const ALPHA_MAP = { '1':'A', '7':'G', 'A':'J', 'B':'K', 'C':'L', 'D':'H', '5':'S' };
 
-    // --- 列車番号変換 ---
+    // 種別優先度（数字が大きいほど内側 col2,3 に寄せる）
+    const TYPE_PRIORITY = { 'ltd': 3, 'exp': 2, 'loc': 1 };
+
+    // 単線区間チェック (聖マリア85〜大善寺94 / 矢加部112〜開130)
+    function isSingleTrackRow(row) {
+      return (row >= 85 && row <= 94) || (row >= 112 && row <= 130);
+    }
+
     function formatTrainNumber(rawStr) {
       if (!rawStr || rawStr.length < 10) return "****";
-      let c4 = rawStr.charAt(3);
-      let c6 = rawStr.charAt(5);
-      let c8 = rawStr.charAt(7);
-      let c10 = rawStr.charAt(9);
-      const c3 = rawStr.charAt(2);
-
-      if (c3 === '4') {
-        c4 = ALPHA_MAP[c4] || c4;
-      }
+      let c4 = rawStr.charAt(3), c6 = rawStr.charAt(5), c8 = rawStr.charAt(7), c10 = rawStr.charAt(9);
+      if (rawStr.charAt(2) === '4') c4 = ALPHA_MAP[c4] || c4;
       return `${c4}${c6}${c8}${c10}`;
     }
 
-    // --- 駅名短縮 ---
     function formatStationName(name) {
       if (!name) return "不明";
       const replaceRules = {
-        "西鉄福岡（天神）": "福岡",
-        "西鉄福岡(天神)": "福岡",
-        "西鉄二日市": "二日市",
-        "西鉄小郡": "小郡",
-        "西鉄久留米": "久留米",
-        "西鉄柳川": "柳川"
+        "西鉄福岡（天神）": "福岡", "西鉄福岡(天神)": "福岡",
+        "西鉄二日市": "二日市", "西鉄小郡": "小郡", "西鉄久留米": "久留米", "西鉄柳川": "柳川"
       };
       if (replaceRules[name]) return replaceRules[name];
       return name.replace(/^西鉄/, "").substring(0, 3);
     }
 
-    // --- プロキシ取得 ---
     async function fetchWithRetry(url) {
       const cacheBusterUrl = `${url}${url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
-
       for (let i = 0; i < PROXY_GENERATORS.length; i++) {
-        const proxyUrl = PROXY_GENERATORS[i](cacheBusterUrl);
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 6000);
-
-          const res = await fetch(proxyUrl, { signal: controller.signal });
+          const timeoutId = setTimeout(() => controller.abort(), 5000);
+          const res = await fetch(PROXY_GENERATORS[i](cacheBusterUrl), { signal: controller.signal });
           clearTimeout(timeoutId);
-
           if (res.ok) {
-            const text = await res.text();
-            const data = JSON.parse(text);
-            if (data && (data.locationObjects || data.fileVersion)) {
-              return data;
-            }
+            const data = JSON.parse(await res.text());
+            if (data && (data.locationObjects || data.fileVersion)) return data;
           }
-        } catch (e) {
-          console.warn(`プロキシ [${i + 1}] 再接続中...`);
-        }
+        } catch (e) {}
       }
       throw new Error("通信エラー");
     }
 
-    // --- 画面（CSS Grid）初期生成 ---
     function buildGrid() {
       const grid = document.getElementById("diagramGrid");
       const stationMap = new Map(STATIONS.map(s => [s.row, s]));
@@ -479,14 +434,12 @@
         const station = stationMap.get(r);
         const isStation = !!station;
         const rowClass = isStation ? "station-row" : "section-row";
+        const singleClass = isSingleTrackRow(r) ? "is-single-track" : "";
 
-        html += `<div class="grid-row ${rowClass}" data-row="${r}">`;
-
-        // Col 1 & 2 (上り)
+        html += `<div class="grid-row ${rowClass} ${singleClass}" data-row="${r}">`;
         html += `<div class="grid-cell track-cell" data-col="1"></div>`;
         html += `<div class="grid-cell track-cell" data-col="2"></div>`;
 
-        // 中央 (駅名)
         if (isStation) {
           html += `
             <div class="grid-cell station-center-cell">
@@ -500,117 +453,136 @@
           html += `<div class="grid-cell"></div>`;
         }
 
-        // Col 3 & 4 (下り)
         html += `<div class="grid-cell track-cell" data-col="3"></div>`;
         html += `<div class="grid-cell track-cell" data-col="4"></div>`;
-
         html += `</div>`;
       }
-
       grid.innerHTML = html;
     }
 
-    // --- 列車アイコンの動的描画 ---
     async function fetchAndRender() {
       const statusBar = document.getElementById("statusBar");
-
-      // スクロール位置を保持
       const scrollPos = window.scrollY;
 
       try {
         const data = await fetchWithRetry(TARGET_API);
-
-        // 既存アイコンクリア
         document.querySelectorAll(".train-icon").forEach(el => el.remove());
 
-        let totalTrainCount = 0;
-
         if (data && data.locationObjects) {
+          // Rowごとに列車データをグループ化
+          const rowGroups = {};
+
           data.locationObjects.forEach(loc => {
             const row = parseInt(loc.locationRow, 10);
-            const col = parseInt(loc.locationCol, 10);
+            if (row === 0 || isNaN(row)) return;
 
-            // 本線 col 1~4 のみ処理
-            if (row === 0 || isNaN(row) || col < 1 || col > 4) return;
-
-            const targetCell = document.querySelector(`.grid-row[data-row="${row}"] .grid-cell[data-col="${col}"]`);
-            if (!targetCell) return;
+            if (!rowGroups[row]) {
+              rowGroups[row] = { up: [], down: [] };
+            }
 
             const trains = loc.trainInfoObjects || [];
-            if (trains.length === 0) return;
-
-            totalTrainCount += trains.length;
-
-            const isUp = loc.trainDirection === "1";
-            const dirClass = isUp ? "train-up" : "train-down";
-
-            const icon = document.createElement("div");
-
-            // --- 重複時の表示（2本以上重なった場合） ---
-            if (trains.length > 1) {
-              icon.className = `train-icon ${dirClass} color-multi`;
-              
-              // ツールチップに重なっているすべての列車詳細を記載
-              const details = trains.map(t => 
-                `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`
-              ).join("\n");
-              
-              icon.title = `【${trains.length}本の列車が重複】\n${details}`;
-
-              // 灰色アイコン＋数字件数表示
-              icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
-
+            if (loc.trainDirection === "1") {
+              rowGroups[row].up.push(...trains);
             } else {
-              // --- 通常時（1本のみの場合） ---
-              const info = trains[0];
-              const colorType = info.trainColorType || "loc";
-              const colorClass = `color-${colorType}`;
+              rowGroups[row].down.push(...trains);
+            }
+          });
 
-              const formattedTrainNum = formatTrainNumber(info.trainNumber);
-              const destShortName = formatStationName(info.destStationName);
-              const carsDoorsCombined = `${info.carsOfTrain || "0"}${info.doorsOfCar || "0"}`;
+          let totalCount = 0;
 
-              icon.className = `train-icon ${dirClass} ${colorClass}`;
-              icon.title = `列車番号: ${formattedTrainNum} (${info.trainNumber})\n種別: ${info.trainType}\n行先: ${info.destStationName}\n編成: ${info.carsOfTrain}両 / ${info.doorsOfCar}ドア`;
+          // 各Rowの列車を優等種別順にソートして Col2, Col3 に詰めて描画
+          Object.keys(rowGroups).forEach(rowStr => {
+            const row = parseInt(rowStr, 10);
+            const group = rowGroups[row];
 
-              const numberBox = `<div class="train-number-box">${formattedTrainNum}</div>`;
-              const destBox = `<div class="train-dest-box">${destShortName}</div>`;
-              const carsBadge = `<div class="train-cars-badge">${carsDoorsCombined}</div>`;
+            // 1. 上り（Up）列車処理：Col2（内側） → Col1（外側）へ詰める
+            if (group.up.length > 0) {
+              totalCount += group.up.length;
+              // 優等列車優先ソート
+              group.up.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
 
-              if (isUp) {
-                icon.innerHTML = `${carsBadge}${destBox}${numberBox}`;
+              if (group.up.length === 1) {
+                renderIcon(row, 2, [group.up[0]], true); // 1本ならCol2に詰める
+              } else if (group.up.length === 2) {
+                renderIcon(row, 2, [group.up[0]], true); // 優等列車を内側 Col2
+                renderIcon(row, 1, [group.up[1]], true); // 普通等を外側 Col1
               } else {
-                icon.innerHTML = `${numberBox}${destBox}${carsBadge}`;
+                renderIcon(row, 2, [group.up[0]], true);
+                renderIcon(row, 1, group.up.slice(1), true); // 3本以上は外側で重複統合
               }
             }
 
-            targetCell.appendChild(icon);
+            // 2. 下り（Down）列車処理：Col3（内側） → Col4（外側）へ詰める
+            if (group.down.length > 0) {
+              totalCount += group.down.length;
+              // 優等列車優先ソート
+              group.down.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
+
+              if (group.down.length === 1) {
+                renderIcon(row, 3, [group.down[0]], false); // 1本ならCol3に詰める
+              } else if (group.down.length === 2) {
+                renderIcon(row, 3, [group.down[0]], false); // 優等列車を内側 Col3
+                renderIcon(row, 4, [group.down[1]], false); // 普通等を外側 Col4
+              } else {
+                renderIcon(row, 3, [group.down[0]], false);
+                renderIcon(row, 4, group.down.slice(1), false); // 3本以上は外側で重複統合
+              }
+            }
           });
+
+          const now = new Date();
+          statusBar.textContent = `更新: ${now.toLocaleTimeString()} （${totalCount}本）`;
         }
-
-        const now = new Date();
-        statusBar.textContent = `更新: ${now.toLocaleTimeString()} （${totalTrainCount}本走行中）`;
-
       } catch (err) {
         console.error(err);
-        statusBar.textContent = "通信一時エラー（再試行中）";
+        statusBar.textContent = "通信一時エラー";
       } finally {
-        // スクロール位置を復元
         window.scrollTo(0, scrollPos);
       }
     }
 
-    // 手動リロード関数
+    // アイコンDOM構築＆挿入
+    function renderIcon(row, col, trains, isUp) {
+      const targetCell = document.querySelector(`.grid-row[data-row="${row}"] .grid-cell[data-col="${col}"]`);
+      if (!targetCell || trains.length === 0) return;
+
+      const dirClass = isUp ? "train-up" : "train-down";
+      const icon = document.createElement("div");
+
+      if (trains.length > 1) {
+        // 重複時（灰色数字バッジ）
+        icon.className = `train-icon ${dirClass} color-multi`;
+        const details = trains.map(t => `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`).join("\n");
+        icon.title = `【${trains.length}本重複】\n${details}`;
+        icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
+      } else {
+        // 通常（単一列車）
+        const info = trains[0];
+        const colorType = info.trainColorType || "loc";
+        const formattedTrainNum = formatTrainNumber(info.trainNumber);
+        const destShortName = formatStationName(info.destStationName);
+        const carsDoorsCombined = `${info.carsOfTrain || "0"}${info.doorsOfCar || "0"}`;
+
+        icon.className = `train-icon ${dirClass} color-${colorType}`;
+        icon.title = `列車番号: ${formattedTrainNum}\n種別: ${info.trainType}\n行先: ${info.destStationName}\n編成: ${info.carsOfTrain}両 / ${info.doorsOfCar}ドア`;
+
+        const numberBox = `<div class="train-number-box">${formattedTrainNum}</div>`;
+        const destBox = `<div class="train-dest-box">${destShortName}</div>`;
+        const carsBadge = `<div class="train-cars-badge">${carsDoorsCombined}</div>`;
+
+        icon.innerHTML = isUp ? `${carsBadge}${destBox}${numberBox}` : `${numberBox}${destBox}${carsBadge}`;
+      }
+
+      targetCell.appendChild(icon);
+    }
+
     async function manualReload() {
-      const statusBar = document.getElementById("statusBar");
-      statusBar.textContent = "更新中...";
+      document.getElementById("statusBar").textContent = "更新中...";
       await fetchAndRender();
     }
 
-    // --- 自動ループ（12秒周期） ---
     async function startAutoUpdate() {
       buildGrid();
-
       while (true) {
         await fetchAndRender();
         await new Promise(resolve => setTimeout(resolve, 12000));
