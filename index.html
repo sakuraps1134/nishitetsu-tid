@@ -14,14 +14,14 @@
       --text-sub: #64748b;
       --station-text: #008060;
       --line-color: #94a3b8;
-      --single-track-bg: rgba(245, 158, 11, 0.08); /* 単線区間の背景色 */
-      --single-track-line: #f59e0b; /* 単線区間の線路色（オレンジ） */
+      --single-track-bg: rgba(245, 158, 11, 0.08);
+      --single-track-line: #f59e0b;
 
       /* 種別カラー */
-      --color-loc: #0284c7; /* 青（普通） */
-      --color-exp: #16a34a; /* 緑（急行） */
-      --color-ltd: #dc2626; /* 赤（特急） */
-      --color-def: #64748b; /* 重複時・灰色 */
+      --color-loc: #3b82f6; /* 普通（青系） */
+      --color-exp: #16a34a; /* 急行（緑系） */
+      --color-ltd: #dc2626; /* 特急（赤系） */
+      --color-def: #64748b; /* その他 */
     }
 
     * {
@@ -41,7 +41,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ① ヘッダーの固定表示（sticky） */
+    /* ヘッダーの固定表示 */
     header {
       position: sticky;
       top: 0;
@@ -94,7 +94,6 @@
 
     .reload-btn:hover { background-color: #334155; }
 
-    /* ③ ヘッダーの警告バッジ（赤背景白文字） */
     .header-alerts {
       display: flex;
       gap: 6px;
@@ -137,7 +136,6 @@
       padding: 2px 0;
     }
 
-    /* グリッドレイアウト */
     .diagram-grid {
       display: grid;
       grid-template-columns: 46px 46px 150px 46px 46px;
@@ -145,9 +143,7 @@
       row-gap: 0px;
     }
 
-    .grid-row {
-      display: contents;
-    }
+    .grid-row { display: contents; }
 
     .grid-cell {
       height: 48px;
@@ -157,7 +153,6 @@
       justify-content: center;
     }
 
-    /* 通常の複線・線路 */
     .track-cell::before {
       content: '';
       position: absolute;
@@ -170,14 +165,8 @@
       z-index: 1;
     }
 
-    /* 単線区間の描画 */
-    .grid-row.is-single-track .track-cell::before {
-      display: none;
-    }
-
-    .grid-row.is-single-track .grid-cell {
-      background-color: var(--single-track-bg);
-    }
+    .grid-row.is-single-track .track-cell::before { display: none; }
+    .grid-row.is-single-track .grid-cell { background-color: var(--single-track-bg); }
 
     .grid-row.is-single-track .station-center-cell::before {
       content: '';
@@ -191,11 +180,9 @@
       z-index: 1;
     }
 
-    /* 始点・終点の端線切断 */
     .grid-row[data-row="1"] .track-cell::before { top: 50%; }
     .grid-row[data-row="148"] .track-cell::before { bottom: 50%; }
 
-    /* 中央の駅セル */
     .station-center-cell {
       position: relative;
       display: flex;
@@ -205,7 +192,6 @@
       z-index: 2;
     }
 
-    /* ② 駅アイコン（円形）と文字の拡大 */
     .station-node {
       width: 13px;
       height: 13px;
@@ -235,7 +221,7 @@
       display: inline-block;
       background: #0284c7;
       color: #fff;
-      font-size: 0.68rem; /* 大きく設定 */
+      font-size: 0.68rem;
       font-weight: 800;
       padding: 1px 4px;
       border-radius: 3px;
@@ -243,7 +229,7 @@
     }
 
     .station-name {
-      font-size: 0.88rem; /* 大きく設定 */
+      font-size: 0.88rem;
       font-weight: 800;
       color: var(--station-text);
       text-decoration: underline;
@@ -261,7 +247,6 @@
       z-index: 1;
     }
 
-    /* 列車アイコン & 遅延表示 */
     .train-wrapper {
       position: relative;
       display: flex;
@@ -269,11 +254,10 @@
       align-items: center;
       justify-content: center;
       z-index: 10;
+      cursor: pointer;
     }
 
-    .single-section-center .train-wrapper {
-      z-index: 10;
-    }
+    .single-section-center .train-wrapper { z-index: 10; }
 
     .delay-badge {
       color: #dc2626;
@@ -296,6 +280,11 @@
       border: 1px solid transparent;
       box-sizing: border-box;
       filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.25));
+      transition: transform 0.1s ease;
+    }
+
+    .train-icon:hover {
+      transform: scale(1.08);
     }
 
     .train-icon.color-loc { border-color: var(--color-loc); background-color: var(--color-loc); color: var(--color-loc); }
@@ -354,6 +343,169 @@
       font-family: 'Inter', sans-serif;
       margin: auto 0;
     }
+
+    /* ----------------------------------------------------
+       モーダル（ポップアップ詳細画面）のスタイリング
+    ---------------------------------------------------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 90%;
+      max-width: 380px;
+      max-height: 85vh;
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid #cbd5e1;
+    }
+
+    /* 詳細ヘッダー */
+    .modal-header {
+      background-color: var(--color-loc);
+      color: #ffffff;
+      padding: 12px 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
+
+    .modal-header.color-exp { background-color: var(--color-exp); }
+    .modal-header.color-ltd { background-color: var(--color-ltd); }
+    .modal-header.color-def { background-color: var(--color-def); }
+
+    .modal-train-img-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .modal-train-img {
+      width: 68px;
+      height: 52px;
+      object-fit: contain;
+      background: #ffffff;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    .modal-sharyo-text {
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-top: 3px;
+      color: #ffffff;
+      text-align: center;
+      word-break: break-all;
+    }
+
+    .modal-header-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .modal-title-main {
+      font-size: 1.25rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .modal-sub-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 2px;
+    }
+
+    .modal-train-no {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .modal-cars-doors {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close-btn:hover { color: #ffffff; }
+
+    /* モーダル時刻表テーブル */
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .timetable-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .timetable-table th {
+      text-align: left;
+      padding: 6px 8px;
+      color: var(--text-main);
+      border-bottom: 2px solid #e2e8f0;
+      font-weight: 800;
+    }
+
+    .timetable-table th.time-col {
+      text-align: right;
+      width: 70px;
+    }
+
+    .timetable-table td {
+      padding: 8px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      font-weight: 700;
+    }
+
+    .timetable-table td.time-col {
+      text-align: right;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .timetable-loading {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -364,7 +516,6 @@
       <button class="reload-btn" onclick="manualReload()">↺ リロード</button>
       <div class="status-bar" id="statusBar">データ取得中...</div>
     </div>
-    <!-- ③ 警告バッジコンテナ -->
     <div class="header-alerts" id="headerAlerts"></div>
   </header>
 
@@ -372,6 +523,29 @@
     <div class="terminals">▲ 西鉄福岡（天神）</div>
     <div class="diagram-grid" id="diagramGrid"></div>
     <div class="terminals" style="margin-top: 6px;">▼ 大牟田</div>
+  </div>
+
+  <!-- 詳細表示モーダル -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header" id="modalHeader">
+        <button class="modal-close-btn" onclick="closeModal()">×</button>
+        <div class="modal-train-img-container">
+          <img src="https://img.elesite-next.com/rosen_icon/nishitetsu_omuta/9000%E5%BD%A29000.webp" class="modal-train-img" alt="列車">
+          <div class="modal-sharyo-text" id="modalSharyoText">----</div>
+        </div>
+        <div class="modal-header-info">
+          <div class="modal-title-main" id="modalTitle">---- 行</div>
+          <div class="modal-sub-info">
+            <div class="modal-train-no" id="modalTrainNo">第----列車</div>
+            <div class="modal-cars-doors" id="modalCarsDoors">-両-ドア</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <div class="timetable-loading">時刻表読込中...</div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -442,6 +616,9 @@
     const ALPHA_MAP = { '1':'A', '7':'G', 'A':'J', 'B':'K', 'C':'L', 'D':'H', '5':'S' };
     const TYPE_PRIORITY = { 'ltd': 3, 'exp': 2, 'loc': 1 };
 
+    let timetableDataCache = null;
+    let cachedIsHoliday = null;
+
     function isSingleTrackRow(row) {
       return (row >= 85 && row <= 94) || (row >= 112 && row <= 130);
     }
@@ -468,6 +645,12 @@
       return name.replace(/^西鉄/, "").substring(0, 3);
     }
 
+    function isHolidayJST() {
+      const now = new Date();
+      const day = now.getDay();
+      return (day === 0 || day === 6); // 土日判定 (※祝日も含める場合はライブラリ等が必要ですが基本は土日判定)
+    }
+
     async function fetchWithRetry(url) {
       const cacheBusterUrl = `${url}${url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
       for (let i = 0; i < PROXY_GENERATORS.length; i++) {
@@ -478,7 +661,7 @@
           clearTimeout(timeoutId);
           if (res.ok) {
             const data = JSON.parse(await res.text());
-            if (data && (data.locationObjects || data.fileVersion)) return data;
+            if (data && (data.locationObjects || data.fileVersion || typeof data === 'object')) return data;
           }
         } catch (e) {}
       }
@@ -531,8 +714,8 @@
 
         if (data && data.locationObjects) {
           const rowGroups = {};
-          let hasSevereDelay = false;   // 10分以上の遅延フラグ
-          let hasExtraTrain = false;    // 臨時列車（2桁目が9, 4, D）フラグ
+          let hasSevereDelay = false;
+          let hasExtraTrain = false;
 
           data.locationObjects.forEach(loc => {
             const row = parseInt(loc.locationRow, 10);
@@ -546,13 +729,10 @@
 
             const trains = loc.trainInfoObjects || [];
 
-            // 全列車チェック（遅延＆臨時列車判定）
             trains.forEach(t => {
-              // 遅延チェック (10分以上)
               const d = parseInt(t.delay || t.delayTime || 0, 10);
               if (d >= 10) hasSevereDelay = true;
 
-              // 臨時列車チェック (フォーマット済み列車番号の2桁目「インデックス1」)
               const formattedNum = formatTrainNumber(t.trainNumber);
               if (formattedNum.length >= 2) {
                 const char2 = formattedNum.charAt(1);
@@ -569,14 +749,9 @@
             }
           });
 
-          // ③ ヘッダーの警告バッジの表示制御
           let alertHtml = "";
-          if (hasSevereDelay) {
-            alertHtml += `<div class="alert-badge">⚠️ 遅延発生</div>`;
-          }
-          if (hasExtraTrain) {
-            alertHtml += `<div class="alert-badge">⚠️ 臨時列車在線</div>`;
-          }
+          if (hasSevereDelay) alertHtml += `<div class="alert-badge">⚠️ 遅延発生</div>`;
+          if (hasExtraTrain) alertHtml += `<div class="alert-badge">⚠️ 臨時列車在線</div>`;
           headerAlerts.innerHTML = alertHtml;
 
           let totalCount = 0;
@@ -599,9 +774,8 @@
                 totalCount += group.up.length;
                 group.up.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
 
-                if (group.up.length === 1) {
-                  renderIconToCell(row, 2, [group.up[0]], true);
-                } else if (group.up.length === 2) {
+                if (group.up.length === 1) renderIconToCell(row, 2, [group.up[0]], true);
+                else if (group.up.length === 2) {
                   renderIconToCell(row, 2, [group.up[0]], true);
                   renderIconToCell(row, 1, [group.up[1]], true);
                 } else {
@@ -614,9 +788,8 @@
                 totalCount += group.down.length;
                 group.down.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
 
-                if (group.down.length === 1) {
-                  renderIconToCell(row, 3, [group.down[0]], false);
-                } else if (group.down.length === 2) {
+                if (group.down.length === 1) renderIconToCell(row, 3, [group.down[0]], false);
+                else if (group.down.length === 2) {
                   renderIconToCell(row, 3, [group.down[0]], false);
                   renderIconToCell(row, 4, [group.down[1]], false);
                 } else {
@@ -649,7 +822,6 @@
       if (!targetCell || trains.length === 0) return;
 
       const dirClass = isUp ? "train-up" : "train-down";
-
       const wrapper = document.createElement("div");
       wrapper.className = "train-wrapper";
 
@@ -666,7 +838,6 @@
         const details = trains.map(t => `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`).join("\n");
         icon.title = `【${trains.length}本重複】\n${details}`;
         icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
-
         wrapper.appendChild(icon);
       } else {
         const info = trains[0];
@@ -691,9 +862,126 @@
           if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
           wrapper.appendChild(icon);
         }
+
+        // クリック時に詳細表示を開く
+        wrapper.onclick = (e) => {
+          e.stopPropagation();
+          openDetailModal(info);
+        };
       }
 
       targetCell.appendChild(wrapper);
+    }
+
+    /* ----------------------------------------------------
+       モーダル制御＆時刻表・車番取得処理
+    ---------------------------------------------------- */
+    async function openDetailModal(trainInfo) {
+      const modal = document.getElementById("detailModal");
+      const header = document.getElementById("modalHeader");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalTrainNo = document.getElementById("modalTrainNo");
+      const modalCarsDoors = document.getElementById("modalCarsDoors");
+      const modalSharyoText = document.getElementById("modalSharyoText");
+      const modalBody = document.getElementById("modalBody");
+
+      const formattedNum = formatTrainNumber(trainInfo.trainNumber);
+      const colorType = trainInfo.trainColorType || "loc";
+
+      // ヘッダーデザインセット
+      header.className = `modal-header color-${colorType}`;
+      modalTitle.textContent = `${trainInfo.trainType || ''} ${trainInfo.destStationName || ''}行`;
+      modalTrainNo.textContent = `第${formattedNum}列車`;
+      modalCarsDoors.textContent = `${trainInfo.carsOfTrain || 0}両${trainInfo.doorsOfCar || 0}ドア`;
+      modalSharyoText.textContent = "取得中...";
+      modalBody.innerHTML = `<div class="timetable-loading">時刻表データ取得中...</div>`;
+
+      modal.classList.add("active");
+
+      // 日付・曜日判定
+      const now = new Date();
+      const isHoliday = isHolidayJST();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const date = String(now.getDate()).padStart(2, '0');
+      const dateStr = `${year}-${month}-${date}`;
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const currentTimeStr = `${hours}:${minutes}`;
+
+      const dayId = isHoliday ? "1114" : "1113";
+      const timetableFile = isHoliday ? "timetable_donichi.json" : "timetable_hei.json";
+
+      // 1. 車両番号（車番）情報の非同期取得
+      fetchTrainPositionSplit(formattedNum, currentTimeStr, dateStr, dayId).then(sharyo => {
+        modalSharyoText.textContent = sharyo || "----";
+      });
+
+      // 2. 時刻表データの非同期取得（キャッシュ利用）
+      try {
+        if (!timetableDataCache || cachedIsHoliday !== isHoliday) {
+          const rawTtUrl = `https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/${timetableFile}`;
+          const res = await fetch(rawTtUrl);
+          timetableDataCache = await res.json();
+          cachedIsHoliday = isHoliday;
+        }
+
+        const trainTimetable = timetableDataCache[formattedNum];
+        if (trainTimetable && trainTimetable.length > 0) {
+          let tableHtml = `
+            <table class="timetable-table">
+              <thead>
+                <tr>
+                  <th>停車駅</th>
+                  <th class="time-col">着時刻</th>
+                  <th class="time-col">発時刻</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          trainTimetable.forEach(st => {
+            tableHtml += `
+              <tr>
+                <td>${st.station}</td>
+                <td class="time-col">${st.arrive || '--:--'}</td>
+                <td class="time-col">${st.depart || '--:--'}</td>
+              </tr>
+            `;
+          });
+
+          tableHtml += `</tbody></table>`;
+          modalBody.innerHTML = tableHtml;
+        } else {
+          modalBody.innerHTML = `<div class="timetable-loading">該当する時刻表が見つかりませんでした</div>`;
+        }
+      } catch (err) {
+        console.error("時刻表取得エラー:", err);
+        modalBody.innerHTML = `<div class="timetable-loading">時刻表の取得に失敗しました</div>`;
+      }
+    }
+
+    async function fetchTrainPositionSplit(retsuban, currentTime, selectDate, dayId) {
+      try {
+        const apiUrl = `https://www.elesite-next.com/fastapi/get_train_position_split?rosen_code=nishitetsu_omuta&current_time=${currentTime}&day_id=${dayId}&select_date=${selectDate}&second=0&concat_mode=false&route_id=283`;
+        const res = await fetchWithRetry(apiUrl);
+
+        if (res && res.train_position) {
+          const match = res.train_position.find(t => t.retsuban === retsuban);
+          if (match) {
+            return match.sharyo_list || match.shotei || "";
+          }
+        }
+      } catch (e) {
+        console.error("車番データ取得エラー:", e);
+      }
+      return "";
+    }
+
+    function closeModal(e) {
+      if (!e || e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close-btn')) {
+        document.getElementById("detailModal").classList.remove("active");
+      }
     }
 
     async function manualReload() {
