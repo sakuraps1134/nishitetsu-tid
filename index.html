@@ -261,14 +261,19 @@
     .single-section-center .train-wrapper { z-index: 10; }
 
     .delay-badge {
-      color: #dc2626;
-      font-size: 0.7rem;
-      font-weight: 900;
-      font-family: 'Inter', sans-serif;
-      line-height: 1;
-      padding: 1px 0;
-      text-shadow: 0px 0px 2px #fff, 0px 0px 2px #fff;
-    }
+  color: #ffffff;
+  background-color: #dc2626;
+  font-size: 0.65rem;
+  font-weight: 900;
+  font-family: 'Inter', sans-serif;
+  line-height: 1;
+  padding: 1px 4px;
+  border-radius: 3px;
+  z-index: 20;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
 
     .train-icon {
       position: relative;
@@ -750,7 +755,7 @@
             const trains = loc.trainInfoObjects || [];
 
             trains.forEach(t => {
-              const d = parseInt(t.delay || t.delayTime || 0, 10);
+              const d = parseInt(t.delayTime ?? t.delay ?? 0, 10);
               if (d >= 10) hasSevereDelay = true;
 
               const formattedNum = formatTrainNumber(t.trainNumber);
@@ -887,6 +892,11 @@
           e.stopPropagation();
           openDetailModal(info);
         };
+        wrapper.innerHTML = "";
+if (delayBadgeHtml) {
+  wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
+}
+wrapper.appendChild(icon);
       }
 
       targetCell.appendChild(wrapper);
