@@ -54843,5 +54843,390 @@
       "arrive": "00:03",
       "depart": null
     }
+  ],
+  "7551": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "05:30"
+    },
+    {
+      "station": "馬田",
+      "arrive": "05:32",
+      "depart": "05:32"
+    },
+    {
+      "station": "上浦",
+      "arrive": "05:34",
+      "depart": "05:34"
+    },
+    {
+      "station": "本郷",
+      "arrive": "05:37",
+      "depart": "05:37"
+    },
+    {
+      "station": "大堰",
+      "arrive": "05:39",
+      "depart": "05:40"
+    },
+    {
+      "station": "金島",
+      "arrive": "05:43",
+      "depart": "05:43"
+    },
+    {
+      "station": "大城",
+      "arrive": "05:45",
+      "depart": "05:45"
+    },
+    {
+      "station": "北野",
+      "arrive": "05:48",
+      "depart": "05:49"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "05:52",
+      "depart": "05:52"
+    },
+    {
+      "station": "学校前",
+      "arrive": "05:56",
+      "depart": "05:56"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "05:58",
+      "depart": "05:59"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "06:00",
+      "depart": "06:01"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "06:03",
+      "depart": "06:03"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "06:04",
+      "depart": "06:05"
+    },
+    {
+      "station": "花畑",
+      "arrive": "06:08",
+      "depart": null
+    }
+  ],
+  "7553": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "05:50"
+    },
+    {
+      "station": "馬田",
+      "arrive": "05:52",
+      "depart": "05:52"
+    },
+    {
+      "station": "上浦",
+      "arrive": "05:54",
+      "depart": "05:54"
+    },
+    {
+      "station": "本郷",
+      "arrive": "05:57",
+      "depart": "06:02"
+    },
+    {
+      "station": "大堰",
+      "arrive": "06:04",
+      "depart": "06:04"
+    },
+    {
+      "station": "金島",
+      "arrive": "06:07",
+      "depart": "06:10"
+    },
+    {
+      "station": "大城",
+      "arrive": "06:12",
+      "depart": "06:12"
+    },
+    {
+      "station": "北野",
+      "arrive": "06:16",
+      "depart": "06:20"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "06:23",
+      "depart": "06:23"
+    },
+    {
+      "station": "学校前",
+      "arrive": "06:27",
+      "depart": "06:30"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "06:32",
+      "depart": "06:32"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "06:34",
+      "depart": "06:35"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "06:36",
+      "depart": "06:36"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "06:38",
+      "depart": "06:39"
+    },
+    {
+      "station": "花畑",
+      "arrive": "06:41",
+      "depart": null
+    }
+  ],
+  "7573": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "07:20"
+    },
+    {
+      "station": "馬田",
+      "arrive": "07:23",
+      "depart": "07:23"
+    },
+    {
+      "station": "上浦",
+      "arrive": "07:25",
+      "depart": "07:25"
+    },
+    {
+      "station": "本郷",
+      "arrive": "07:27",
+      "depart": "07:28"
+    },
+    {
+      "station": "大堰",
+      "arrive": "07:30",
+      "depart": "07:30"
+    },
+    {
+      "station": "金島",
+      "arrive": "07:33",
+      "depart": "07:34"
+    },
+    {
+      "station": "大城",
+      "arrive": "07:36",
+      "depart": "07:36"
+    },
+    {
+      "station": "北野",
+      "arrive": "07:39",
+      "depart": "07:40"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "07:43",
+      "depart": "07:43"
+    },
+    {
+      "station": "学校前",
+      "arrive": "07:46",
+      "depart": "07:47"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "07:49",
+      "depart": "07:49"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "07:50",
+      "depart": "07:51"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "07:53",
+      "depart": "07:53"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "07:55",
+      "depart": "07:56"
+    },
+    {
+      "station": "花畑",
+      "arrive": "07:58",
+      "depart": null
+    }
+  ],
+  "7623": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "22:30"
+    },
+    {
+      "station": "馬田",
+      "arrive": "22:32",
+      "depart": "22:32"
+    },
+    {
+      "station": "上浦",
+      "arrive": "22:34",
+      "depart": "22:34"
+    },
+    {
+      "station": "本郷",
+      "arrive": "22:37",
+      "depart": "22:37"
+    },
+    {
+      "station": "大堰",
+      "arrive": "22:39",
+      "depart": "22:40"
+    },
+    {
+      "station": "金島",
+      "arrive": "22:43",
+      "depart": "22:43"
+    },
+    {
+      "station": "大城",
+      "arrive": "22:45",
+      "depart": "22:45"
+    },
+    {
+      "station": "北野",
+      "arrive": "22:48",
+      "depart": "22:49"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "22:52",
+      "depart": "22:52"
+    },
+    {
+      "station": "学校前",
+      "arrive": "22:56",
+      "depart": "22:56"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "22:58",
+      "depart": "22:58"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "23:00",
+      "depart": "23:02"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "23:04",
+      "depart": "23:04"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "23:05",
+      "depart": "23:06"
+    },
+    {
+      "station": "花畑",
+      "arrive": "23:09",
+      "depart": null
+    }
+  ],
+  "7631": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "23:13"
+    },
+    {
+      "station": "馬田",
+      "arrive": "23:15",
+      "depart": "23:15"
+    },
+    {
+      "station": "上浦",
+      "arrive": "23:17",
+      "depart": "23:17"
+    },
+    {
+      "station": "本郷",
+      "arrive": "23:20",
+      "depart": "23:20"
+    },
+    {
+      "station": "大堰",
+      "arrive": "23:22",
+      "depart": "23:23"
+    },
+    {
+      "station": "金島",
+      "arrive": "23:26",
+      "depart": "23:30"
+    },
+    {
+      "station": "大城",
+      "arrive": "23:32",
+      "depart": "23:32"
+    },
+    {
+      "station": "北野",
+      "arrive": "23:35",
+      "depart": "23:36"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "23:39",
+      "depart": "23:39"
+    },
+    {
+      "station": "学校前",
+      "arrive": "23:42",
+      "depart": "23:43"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "23:45",
+      "depart": "23:45"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "23:47",
+      "depart": "23:56"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "23:58",
+      "depart": "23:58"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "00:00",
+      "depart": "00:01"
+    },
+    {
+      "station": "花畑",
+      "arrive": "00:03",
+      "depart": null
+    }
   ]
 }

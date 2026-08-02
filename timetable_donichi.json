@@ -6092,93 +6092,6 @@
       "depart": null
     }
   ],
-  "4121": [
-    {
-      "station": "西鉄福岡(天神)",
-      "arrive": null,
-      "depart": "12:25"
-    },
-    {
-      "station": "薬院",
-      "arrive": "12:26",
-      "depart": "12:26"
-    },
-    {
-      "station": "西鉄平尾",
-      "arrive": "12:28",
-      "depart": "12:28"
-    },
-    {
-      "station": "高宮",
-      "arrive": "12:30",
-      "depart": "12:30"
-    },
-    {
-      "station": "大橋",
-      "arrive": "12:33",
-      "depart": "12:37"
-    },
-    {
-      "station": "井尻",
-      "arrive": "12:39",
-      "depart": "12:39"
-    },
-    {
-      "station": "雑餉隈",
-      "arrive": "12:42",
-      "depart": "12:42"
-    },
-    {
-      "station": "桜並木",
-      "arrive": "12:43",
-      "depart": "12:43"
-    },
-    {
-      "station": "春日原",
-      "arrive": "12:45",
-      "depart": "12:49"
-    },
-    {
-      "station": "白木原",
-      "arrive": "12:51",
-      "depart": "12:51"
-    },
-    {
-      "station": "下大利",
-      "arrive": "12:53",
-      "depart": "12:53"
-    },
-    {
-      "station": "都府楼前",
-      "arrive": "12:55",
-      "depart": "12:55"
-    },
-    {
-      "station": "西鉄二日市",
-      "arrive": "12:57",
-      "depart": "12:58"
-    },
-    {
-      "station": "紫",
-      "arrive": "13:00",
-      "depart": "13:00"
-    },
-    {
-      "station": "朝倉街道",
-      "arrive": "13:02",
-      "depart": "13:02"
-    },
-    {
-      "station": "桜台",
-      "arrive": "13:05",
-      "depart": "13:05"
-    },
-    {
-      "station": "筑紫",
-      "arrive": "13:08",
-      "depart": null
-    }
-  ],
   "A123": [
     {
       "station": "西鉄福岡(天神)",
@@ -26292,6 +26205,168 @@
       "depart": null
     }
   ],
+  "2142": [
+    {
+      "station": "大善寺",
+      "arrive": null,
+      "depart": "14:30"
+    },
+    {
+      "station": "安武",
+      "arrive": "14:33",
+      "depart": "14:37"
+    },
+    {
+      "station": "津福",
+      "arrive": "14:40",
+      "depart": "14:42"
+    },
+    {
+      "station": "聖マリア病院前",
+      "arrive": "14:44",
+      "depart": "14:44"
+    },
+    {
+      "station": "花畑",
+      "arrive": "14:45",
+      "depart": "14:46"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "14:48",
+      "depart": "14:55"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "14:57",
+      "depart": "14:57"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "14:58",
+      "depart": "14:59"
+    },
+    {
+      "station": "味坂",
+      "arrive": "15:02",
+      "depart": "15:02"
+    },
+    {
+      "station": "端間",
+      "arrive": "15:05",
+      "depart": "15:05"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "15:07",
+      "depart": "15:08"
+    },
+    {
+      "station": "大保",
+      "arrive": "15:11",
+      "depart": "15:11"
+    },
+    {
+      "station": "三沢",
+      "arrive": "15:13",
+      "depart": "15:13"
+    },
+    {
+      "station": "三国が丘",
+      "arrive": "15:15",
+      "depart": "15:15"
+    },
+    {
+      "station": "津古",
+      "arrive": "15:17",
+      "depart": "15:17"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "15:20",
+      "depart": "15:26"
+    },
+    {
+      "station": "桜台",
+      "arrive": "15:27",
+      "depart": "15:28"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "15:30",
+      "depart": "15:30"
+    },
+    {
+      "station": "紫",
+      "arrive": "15:33",
+      "depart": "15:33"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "15:34",
+      "depart": "15:40"
+    },
+    {
+      "station": "都府楼前",
+      "arrive": "15:42",
+      "depart": "15:42"
+    },
+    {
+      "station": "下大利",
+      "arrive": "15:45",
+      "depart": "15:45"
+    },
+    {
+      "station": "白木原",
+      "arrive": "15:47",
+      "depart": "15:47"
+    },
+    {
+      "station": "春日原",
+      "arrive": "15:48",
+      "depart": "15:49"
+    },
+    {
+      "station": "桜並木",
+      "arrive": "15:51",
+      "depart": "15:51"
+    },
+    {
+      "station": "雑餉隈",
+      "arrive": "15:52",
+      "depart": "15:53"
+    },
+    {
+      "station": "井尻",
+      "arrive": "15:55",
+      "depart": "15:55"
+    },
+    {
+      "station": "大橋",
+      "arrive": "15:57",
+      "depart": "16:02"
+    },
+    {
+      "station": "高宮",
+      "arrive": "16:04",
+      "depart": "16:05"
+    },
+    {
+      "station": "西鉄平尾",
+      "arrive": "16:06",
+      "depart": "16:06"
+    },
+    {
+      "station": "薬院",
+      "arrive": "16:08",
+      "depart": "16:08"
+    },
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": "16:11",
+      "depart": null
+    }
+  ],
   "5152": [
     {
       "station": "西鉄二日市",
@@ -33443,6 +33518,93 @@
       "depart": null
     }
   ],
+  "4121": [
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": null,
+      "depart": "12:25"
+    },
+    {
+      "station": "薬院",
+      "arrive": "12:26",
+      "depart": "12:26"
+    },
+    {
+      "station": "西鉄平尾",
+      "arrive": "12:28",
+      "depart": "12:28"
+    },
+    {
+      "station": "高宮",
+      "arrive": "12:30",
+      "depart": "12:30"
+    },
+    {
+      "station": "大橋",
+      "arrive": "12:33",
+      "depart": "12:37"
+    },
+    {
+      "station": "井尻",
+      "arrive": "12:39",
+      "depart": "12:39"
+    },
+    {
+      "station": "雑餉隈",
+      "arrive": "12:42",
+      "depart": "12:42"
+    },
+    {
+      "station": "桜並木",
+      "arrive": "12:43",
+      "depart": "12:43"
+    },
+    {
+      "station": "春日原",
+      "arrive": "12:45",
+      "depart": "12:49"
+    },
+    {
+      "station": "白木原",
+      "arrive": "12:51",
+      "depart": "12:51"
+    },
+    {
+      "station": "下大利",
+      "arrive": "12:53",
+      "depart": "12:53"
+    },
+    {
+      "station": "都府楼前",
+      "arrive": "12:55",
+      "depart": "12:55"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "12:57",
+      "depart": "12:58"
+    },
+    {
+      "station": "紫",
+      "arrive": "13:00",
+      "depart": "13:00"
+    },
+    {
+      "station": "朝倉街道",
+      "arrive": "13:02",
+      "depart": "13:02"
+    },
+    {
+      "station": "桜台",
+      "arrive": "13:05",
+      "depart": "13:05"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "13:08",
+      "depart": null
+    }
+  ],
   "6551": [
     {
       "station": "西鉄二日市",
@@ -34106,6 +34268,23 @@
       "depart": null
     }
   ],
+  "6663": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "16:49"
+    },
+    {
+      "station": "西鉄五条",
+      "arrive": "16:52",
+      "depart": "16:52"
+    },
+    {
+      "station": "太宰府",
+      "arrive": "16:55",
+      "depart": null
+    }
+  ],
   "6671": [
     {
       "station": "西鉄二日市",
@@ -34562,168 +34741,6 @@
     {
       "station": "太宰府",
       "arrive": "23:47",
-      "depart": null
-    }
-  ],
-  "2142": [
-    {
-      "station": "大善寺",
-      "arrive": null,
-      "depart": "14:30"
-    },
-    {
-      "station": "安武",
-      "arrive": "14:33",
-      "depart": "14:37"
-    },
-    {
-      "station": "津福",
-      "arrive": "14:40",
-      "depart": "14:42"
-    },
-    {
-      "station": "聖マリア病院前",
-      "arrive": "14:44",
-      "depart": "14:44"
-    },
-    {
-      "station": "花畑",
-      "arrive": "14:45",
-      "depart": "14:46"
-    },
-    {
-      "station": "西鉄久留米",
-      "arrive": "14:48",
-      "depart": "14:55"
-    },
-    {
-      "station": "櫛原",
-      "arrive": "14:57",
-      "depart": "14:57"
-    },
-    {
-      "station": "宮の陣",
-      "arrive": "14:58",
-      "depart": "14:59"
-    },
-    {
-      "station": "味坂",
-      "arrive": "15:02",
-      "depart": "15:02"
-    },
-    {
-      "station": "端間",
-      "arrive": "15:05",
-      "depart": "15:05"
-    },
-    {
-      "station": "西鉄小郡",
-      "arrive": "15:07",
-      "depart": "15:08"
-    },
-    {
-      "station": "大保",
-      "arrive": "15:11",
-      "depart": "15:11"
-    },
-    {
-      "station": "三沢",
-      "arrive": "15:13",
-      "depart": "15:13"
-    },
-    {
-      "station": "三国が丘",
-      "arrive": "15:15",
-      "depart": "15:15"
-    },
-    {
-      "station": "津古",
-      "arrive": "15:17",
-      "depart": "15:17"
-    },
-    {
-      "station": "筑紫",
-      "arrive": "15:20",
-      "depart": "15:26"
-    },
-    {
-      "station": "桜台",
-      "arrive": "15:27",
-      "depart": "15:28"
-    },
-    {
-      "station": "朝倉街道",
-      "arrive": "15:30",
-      "depart": "15:30"
-    },
-    {
-      "station": "紫",
-      "arrive": "15:33",
-      "depart": "15:33"
-    },
-    {
-      "station": "西鉄二日市",
-      "arrive": "15:34",
-      "depart": "15:40"
-    },
-    {
-      "station": "都府楼前",
-      "arrive": "15:42",
-      "depart": "15:42"
-    },
-    {
-      "station": "下大利",
-      "arrive": "15:45",
-      "depart": "15:45"
-    },
-    {
-      "station": "白木原",
-      "arrive": "15:47",
-      "depart": "15:47"
-    },
-    {
-      "station": "春日原",
-      "arrive": "15:48",
-      "depart": "15:49"
-    },
-    {
-      "station": "桜並木",
-      "arrive": "15:51",
-      "depart": "15:51"
-    },
-    {
-      "station": "雑餉隈",
-      "arrive": "15:52",
-      "depart": "15:53"
-    },
-    {
-      "station": "井尻",
-      "arrive": "15:55",
-      "depart": "15:55"
-    },
-    {
-      "station": "大橋",
-      "arrive": "15:57",
-      "depart": "16:02"
-    },
-    {
-      "station": "高宮",
-      "arrive": "16:04",
-      "depart": "16:05"
-    },
-    {
-      "station": "西鉄平尾",
-      "arrive": "16:06",
-      "depart": "16:06"
-    },
-    {
-      "station": "薬院",
-      "arrive": "16:08",
-      "depart": "16:08"
-    },
-    {
-      "station": "西鉄福岡(天神)",
-      "arrive": "16:11",
       "depart": null
     }
   ],
@@ -48858,6 +48875,237 @@
     },
     {
       "station": "西鉄柳川",
+      "arrive": "00:03",
+      "depart": null
+    }
+  ],
+  "7551": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "05:30"
+    },
+    {
+      "station": "馬田",
+      "arrive": "05:32",
+      "depart": "05:32"
+    },
+    {
+      "station": "上浦",
+      "arrive": "05:34",
+      "depart": "05:34"
+    },
+    {
+      "station": "本郷",
+      "arrive": "05:37",
+      "depart": "05:37"
+    },
+    {
+      "station": "大堰",
+      "arrive": "05:39",
+      "depart": "05:40"
+    },
+    {
+      "station": "金島",
+      "arrive": "05:43",
+      "depart": "05:43"
+    },
+    {
+      "station": "大城",
+      "arrive": "05:45",
+      "depart": "05:45"
+    },
+    {
+      "station": "北野",
+      "arrive": "05:48",
+      "depart": "05:49"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "05:52",
+      "depart": "05:52"
+    },
+    {
+      "station": "学校前",
+      "arrive": "05:56",
+      "depart": "05:57"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "05:59",
+      "depart": "05:59"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "06:01",
+      "depart": "06:02"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "06:03",
+      "depart": "06:03"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "06:05",
+      "depart": "06:06"
+    },
+    {
+      "station": "花畑",
+      "arrive": "06:08",
+      "depart": null
+    }
+  ],
+  "7623": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "22:30"
+    },
+    {
+      "station": "馬田",
+      "arrive": "22:32",
+      "depart": "22:32"
+    },
+    {
+      "station": "上浦",
+      "arrive": "22:34",
+      "depart": "22:34"
+    },
+    {
+      "station": "本郷",
+      "arrive": "22:37",
+      "depart": "22:37"
+    },
+    {
+      "station": "大堰",
+      "arrive": "22:39",
+      "depart": "22:40"
+    },
+    {
+      "station": "金島",
+      "arrive": "22:43",
+      "depart": "22:43"
+    },
+    {
+      "station": "大城",
+      "arrive": "22:45",
+      "depart": "22:45"
+    },
+    {
+      "station": "北野",
+      "arrive": "22:48",
+      "depart": "22:49"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "22:52",
+      "depart": "22:52"
+    },
+    {
+      "station": "学校前",
+      "arrive": "22:56",
+      "depart": "22:56"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "22:58",
+      "depart": "22:58"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "23:00",
+      "depart": "23:02"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "23:04",
+      "depart": "23:04"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "23:05",
+      "depart": "23:06"
+    },
+    {
+      "station": "花畑",
+      "arrive": "23:09",
+      "depart": null
+    }
+  ],
+  "7631": [
+    {
+      "station": "甘木",
+      "arrive": null,
+      "depart": "23:13"
+    },
+    {
+      "station": "馬田",
+      "arrive": "23:15",
+      "depart": "23:15"
+    },
+    {
+      "station": "上浦",
+      "arrive": "23:17",
+      "depart": "23:17"
+    },
+    {
+      "station": "本郷",
+      "arrive": "23:20",
+      "depart": "23:20"
+    },
+    {
+      "station": "大堰",
+      "arrive": "23:22",
+      "depart": "23:23"
+    },
+    {
+      "station": "金島",
+      "arrive": "23:26",
+      "depart": "23:30"
+    },
+    {
+      "station": "大城",
+      "arrive": "23:32",
+      "depart": "23:32"
+    },
+    {
+      "station": "北野",
+      "arrive": "23:35",
+      "depart": "23:36"
+    },
+    {
+      "station": "古賀茶屋",
+      "arrive": "23:39",
+      "depart": "23:39"
+    },
+    {
+      "station": "学校前",
+      "arrive": "23:42",
+      "depart": "23:43"
+    },
+    {
+      "station": "五郎丸",
+      "arrive": "23:45",
+      "depart": "23:45"
+    },
+    {
+      "station": "宮の陣",
+      "arrive": "23:47",
+      "depart": "23:56"
+    },
+    {
+      "station": "櫛原",
+      "arrive": "23:58",
+      "depart": "23:58"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "00:00",
+      "depart": "00:01"
+    },
+    {
+      "station": "花畑",
       "arrive": "00:03",
       "depart": null
     }
