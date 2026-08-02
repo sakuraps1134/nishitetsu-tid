@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>西鉄天神大牟田線 列車位置情報モニター</title>
+  <title>西鉄天神大牟田線 列車位置情報</title>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --line-color: #334155;
-      --track-main: #475569;
-      --track-dazaifu: #f43f5e;
-      --track-amagaki: #10b981;
+      --bg-color: #ffffff;
+      --text-color: #008060;
+      --line-color: #888888;
+      --station-circle-bg: #ffffff;
+      --station-circle-border: #666666;
     }
 
     * {
@@ -23,9 +20,9 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-color);
-      color: var(--text-main);
+      color: #333;
       padding: 20px;
       display: flex;
       flex-direction: column;
@@ -33,167 +30,188 @@
     }
 
     header {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       text-align: center;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
     }
 
     .status-bar {
       font-size: 0.85rem;
-      color: var(--text-sub);
+      color: #666;
+      margin-top: 5px;
     }
 
-    /* 路線図全体テーブル */
+    /* 路線図全体コンテナ */
     .diagram-container {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-      overflow-x: auto;
-      max-width: 100%;
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid #ddd;
+      padding: 20px 10px;
+      background: #fff;
     }
 
-    .diagram-table {
-      border-collapse: collapse;
-      min-width: 650px;
-    }
-
-    .diagram-table th {
-      font-size: 0.75rem;
-      color: var(--text-sub);
-      padding: 6px 4px;
-      border-bottom: 2px solid var(--line-color);
-    }
-
-    /* 行のスタイル */
-    tr.station-row {
-      background-color: rgba(255, 255, 255, 0.03);
-      border-top: 1px solid var(--line-color);
-      border-bottom: 1px solid var(--line-color);
-    }
-
-    tr.section-row {
-      height: 24px;
-    }
-
-    /* セル（各 col） */
-    td {
-      height: 28px;
+    .terminals {
       text-align: center;
-      vertical-align: middle;
-      position: relative;
-      padding: 0;
-    }
-
-    /* 駅名セル */
-    .station-name {
+      font-size: 0.9rem;
       font-weight: bold;
-      font-size: 0.85rem;
-      padding: 4px 8px;
-      white-space: nowrap;
-      text-align: left;
+      color: #444;
+      padding: 5px 0;
     }
 
-    .station-number {
-      display: inline-block;
-      background: #3b82f6;
-      color: white;
-      font-size: 0.7rem;
-      padding: 2px 5px;
-      border-radius: 4px;
-      margin-right: 6px;
+    /* グリッドレイアウト (左:上り2列 / 中央:駅名 / 右:下り2列) */
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: 50px 50px 180px 50px 50px;
+      justify-content: center;
+      row-gap: 0px;
     }
 
-    /* 線路の背景直線 */
+    /* 各行の高さ設定 */
+    .grid-row {
+      display: contents;
+    }
+
+    .grid-cell {
+      height: 32px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 縦の線路（線） */
     .track-cell::before {
       content: '';
       position: absolute;
       top: 0;
       bottom: 0;
       left: 50%;
-      width: 2px;
-      background-color: var(--track-main);
+      width: 3px;
+      background-color: var(--line-color);
       transform: translateX(-50%);
       z-index: 1;
     }
 
-    .track-cell.dazaifu::before {
-      background-color: var(--track-dazaifu);
-    }
-
-    .track-cell.amagaki::before {
-      background-color: var(--track-amagaki);
-    }
-
-    /* 列車アイコンのコンテナ */
-    .train-badge {
+    /* 中央の駅セル */
+    .station-center-cell {
       position: relative;
-      z-index: 2;
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2px 6px;
-      border-radius: 12px;
-      font-size: 0.7rem;
+      z-index: 2;
+    }
+
+    /* 駅の「○」シンボル */
+    .station-node {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: var(--station-circle-bg);
+      border: 3px solid var(--station-circle-border);
+      z-index: 3;
+    }
+
+    /* 駅名とナンバリング */
+    .station-info {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0 4px;
+      z-index: 4;
+    }
+
+    .station-number {
+      display: inline-block;
+      background: #005bb5;
+      color: #fff;
+      font-size: 0.65rem;
       font-weight: bold;
-      color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-      animation: popIn 0.3s ease-out;
+      padding: 1px 3px;
+      border-radius: 2px;
+    }
+
+    .station-name {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--text-color);
+      text-decoration: underline;
+      margin-left: 2px;
+    }
+
+    /* 横の横断線（駅の横線） */
+    .station-row .track-cell::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: 2px;
+      background-color: #ccc;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    /* ----------------------------------
+       列車アイコン（コマ型デザイン）
+    ---------------------------------- */
+    .train-icon {
+      position: relative;
+      z-index: 10;
+      width: 42px;
+      height: 26px;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.1;
+      padding: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       cursor: pointer;
     }
 
-    .train-badge::after {
-      content: attr(data-direction-symbol);
-      margin-left: 2px;
-      font-size: 0.65rem;
+    /* 上り列車（上向き五角形） */
+    .train-up {
+      clip-path: polygon(50% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);
+      padding-top: 4px;
     }
 
-    /* 種別ごとの色 */
-    .train-type-特急 { background-color: #ef4444; }
-    .train-type-急行 { background-color: #f97316; }
-    .train-type-普通 { background-color: #3b82f6; }
-    .train-type-回送, .train-type-試運転 { background-color: #64748b; }
-    .train-type-default { background-color: #8b5cf6; }
-
-    @keyframes popIn {
-      0% { transform: scale(0); }
-      80% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    /* 下り列車（下向き五角形） */
+    .train-down {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
+      padding-bottom: 4px;
     }
+
+    /* 種別ごとの背景色 */
+    .type-普通 { background-color: #10b981; }  /* 緑（画像イメージ） */
+    .type-特急 { background-color: #ef4444; }  /* 赤 */
+    .type-急行 { background-color: #005bb5; }  /* 青 */
+    .type-default { background-color: #64748b; }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>西鉄天神大牟田線 列車位置モニター</h1>
-    <div class="status-bar" id="statusBar">データ読み込み中...</div>
+    <h2>西鉄天神大牟田線 列車位置</h2>
+    <div class="status-bar" id="statusBar">データ取得中...</div>
   </header>
 
   <div class="diagram-container">
-    <table class="diagram-table">
-      <thead>
-        <tr>
-          <th>本線 上り(1)</th>
-          <th>本線 上り(2)</th>
-          <th>本線 下り(3)</th>
-          <th>本線 下り(4)</th>
-          <th>太宰府/甘木 上り(5)</th>
-          <th>太宰府/甘木 下り(6)</th>
-          <th>駅名</th>
-        </tr>
-      </thead>
-      <tbody id="diagramBody">
-        <!-- JSで動的生成 -->
-      </tbody>
-    </table>
+    <div class="terminals">▲ 西鉄福岡（天神）</div>
+    
+    <div class="diagram-grid" id="diagramGrid">
+      <!-- JSで動的に構築します -->
+    </div>
+
+    <div class="terminals" style="margin-top: 10px;">▼ 大牟田</div>
   </div>
 
   <script>
-    // --- 1. 駅情報マッピング（全50駅：row1から3刻みで配置） ---
+    // --- 1. 本線 50駅の定義 ---
     const STATIONS = [
       { row: 1, name: "西鉄福岡(天神)", num: "T01" },
       { row: 4, name: "薬院", num: "T02" },
@@ -249,106 +267,109 @@
 
     const TOTAL_ROWS = 148;
     const API_URL = "https://busnavi-railway.nnr.co.jp/tenjin_omuta/tenjin-omuta.json";
-    // CORS回避のための公開プロキシ
     const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(API_URL);
 
-    // --- 2. 路線図グリッド（HTML）の初期化構築 ---
-    function buildDiagram() {
-      const tbody = document.getElementById("diagramBody");
-      let html = "";
-
+    // --- 2. 画面（CSS Grid）の初期生成 ---
+    function buildGrid() {
+      const grid = document.getElementById("diagramGrid");
       const stationMap = new Map(STATIONS.map(s => [s.row, s]));
+      let html = "";
 
       for (let r = 1; r <= TOTAL_ROWS; r++) {
         const station = stationMap.get(r);
         const isStation = !!station;
-        const rowClass = isStation ? 'class="station-row"' : 'class="section-row"';
+        const rowClass = isStation ? "station-row" : "section-row";
 
-        html += `<tr ${rowClass} data-row="${r}">`;
+        html += `<div class="grid-row ${rowClass}" data-row="${r}">`;
 
-        // col1 ～ col6
-        for (let c = 1; c <= 6; c++) {
-          let trackType = "";
-          // 太宰府線区間 (row31~37 の col5,6)
-          if (r >= 31 && r <= 37 && c >= 5) trackType = "dazaifu";
-          // 甘木線区間 (row40~73 の col5,6)
-          else if (r >= 40 && r <= 73 && c >= 5) trackType = "amagaki";
+        // Col 1 & Col 2 (上り線路)
+        html += `<div class="grid-cell track-cell" data-col="1"></div>`;
+        html += `<div class="grid-cell track-cell" data-col="2"></div>`;
 
-          html += `<td class="track-cell ${trackType}" data-col="${c}"></td>`;
-        }
-
-        // 駅名表示セル
+        // 中央 (駅名 / ○マークセル)
         if (isStation) {
-          html += `<td class="station-name"><span class="station-number">${station.num}</span>${station.name}</td>`;
+          html += `
+            <div class="grid-cell station-center-cell">
+              <div class="station-node"></div>
+              <div class="station-info">
+                <span class="station-number">${station.num}</span>
+                <span class="station-name">${station.name}</span>
+              </div>
+            </div>`;
         } else {
-          html += `<td class="section-label"></td>`;
+          html += `<div class="grid-cell"></div>`;
         }
 
-        html += `</tr>`;
+        // Col 3 & Col 4 (下り線路)
+        html += `<div class="grid-cell track-cell" data-col="3"></div>`;
+        html += `<div class="grid-cell track-cell" data-col="4"></div>`;
+
+        html += `</div>`;
       }
 
-      tbody.innerHTML = html;
+      grid.innerHTML = html;
     }
 
-    // --- 3. 列車位置APIの取得とレンダリング ---
-    async function fetchAndRenderTrains() {
+    // --- 3. 列車位置APIの読み込み & 反映 ---
+    async function fetchAndRender() {
       const statusBar = document.getElementById("statusBar");
 
       try {
-        const response = await fetch(PROXY_URL);
-        if (!response.ok) throw new Error("ネットワーク応答エラー");
+        const res = await fetch(PROXY_URL);
+        if (!res.ok) throw new Error("通信エラー");
+        const data = await res.json();
 
-        const data = await response.json();
+        // 既存アイコン消去
+        document.querySelectorAll(".train-icon").forEach(el => el.remove());
 
-        // 既存の列車バッジをクリア
-        document.querySelectorAll(".train-badge").forEach(el => el.remove());
-
-        let trainCount = 0;
+        let count = 0;
 
         if (data && data.locationObjects) {
           data.locationObjects.forEach(loc => {
             const row = parseInt(loc.locationRow, 10);
             const col = parseInt(loc.locationCol, 10);
 
-            // row0 は除外
-            if (row === 0 || isNaN(row) || isNaN(col)) return;
+            // col 1~4 のみ処理（5,6の甘木/太宰府線は除外）
+            if (row === 0 || isNaN(row) || col < 1 || col > 4) return;
 
-            const targetCell = document.querySelector(`tr[data-row="${row}"] td[data-col="${col}"]`);
+            const targetCell = document.querySelector(`.grid-row[data-row="${row}"] .grid-cell[data-col="${col}"]`);
             if (!targetCell) return;
 
             loc.trainInfoObjects.forEach(info => {
-              trainCount++;
-              const trainType = info.trainType || "種別不明";
-              const destName = info.destStationName || "";
-              const dir = loc.trainDirection === "1" ? "▲" : "▼"; // 1: 上り, 他: 下り
+              count++;
+              const isUp = loc.trainDirection === "1"; // 1: 上り, 他: 下り
+              const dirClass = isUp ? "train-up" : "train-down";
+              
+              const trainType = info.trainType || "普通";
+              const typeClass = `type-${trainType}` in CSS.supports ? `type-${trainType}` : "type-default";
 
-              // オリジナルアイコンバッジの作成
-              const badge = document.createElement("div");
-              const typeClass = `train-type-${trainType}` in CSS.supports ? `train-type-${trainType}` : 'train-type-default';
+              // 表示用テキスト（行先名）
+              let destText = info.destStationName || "";
+              destText = destText.replace("西鉄", "").replace("福岡(天神)", "福岡");
 
-              badge.className = `train-badge ${typeClass}`;
-              badge.textContent = trainType.substring(0, 2); // 「普通」「特急」「急行」等
-              badge.setAttribute("data-direction-symbol", dir);
-              badge.title = `列車番号: ${info.trainNumber}\n種別: ${trainType}\n行先: ${destName}\n編成: ${info.carsOfTrain}両`;
+              const icon = document.createElement("div");
+              icon.className = `train-icon ${dirClass} ${typeClass}`;
+              icon.textContent = destText || trainType;
+              icon.title = `種別: ${trainType}\n行先: ${info.destStationName}\n列番: ${info.trainNumber}`;
 
-              targetCell.appendChild(badge);
+              targetCell.appendChild(icon);
             });
           });
         }
 
         const now = new Date();
-        statusBar.textContent = `最終更新: ${now.toLocaleTimeString()} （走行中の列車: ${trainCount}本）`;
+        statusBar.textContent = `最終更新: ${now.toLocaleTimeString()} （本線走行中: ${count}本）`;
 
       } catch (err) {
-        console.error("データ取得エラー:", err);
-        statusBar.textContent = "データ取得エラー（再試行します）";
+        console.error(err);
+        statusBar.textContent = "データ更新失敗（自動再試行中）";
       }
     }
 
-    // 初期化と10秒周期の自動更新
-    buildDiagram();
-    fetchAndRenderTrains();
-    setInterval(fetchAndRenderTrains, 10000);
+    // 初期実行 & 10秒自動更新
+    buildGrid();
+    fetchAndRender();
+    setInterval(fetchAndRender, 10000);
   </script>
 </body>
 </html>
