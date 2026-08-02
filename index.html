@@ -397,12 +397,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 80px;
+      width: 90px;
       flex-shrink: 0;
     }
 
     .modal-train-img {
-      width: 68px;
+      width: 80px;
       height: 52px;
       object-fit: contain;
       background: #ffffff;
@@ -410,13 +410,17 @@
       border: 1px solid rgba(255,255,255,0.4);
     }
 
+    /* ④ 改行させず、枠内に収める車番表示 */
     .modal-sharyo-text {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 800;
       margin-top: 3px;
       color: #ffffff;
       text-align: center;
-      word-break: break-all;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      line-height: 1.1;
     }
 
     .modal-header-info {
@@ -424,6 +428,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width: 0;
     }
 
     .modal-title-main {
@@ -473,7 +478,6 @@
     .timetable-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
     }
 
     .timetable-table th {
@@ -482,6 +486,7 @@
       color: var(--text-main);
       border-bottom: 2px solid #e2e8f0;
       font-weight: 800;
+      font-size: 0.85rem;
     }
 
     .timetable-table th.time-col {
@@ -492,12 +497,17 @@
     .timetable-table td {
       padding: 8px 8px;
       border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
       font-weight: 700;
     }
 
+    /* ② 文字サイズ・スタイルの統一 */
     .timetable-table td.time-col {
       text-align: right;
       font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
     }
 
     .timetable-loading {
@@ -531,7 +541,7 @@
       <div class="modal-header" id="modalHeader">
         <button class="modal-close-btn" onclick="closeModal()">×</button>
         <div class="modal-train-img-container">
-          <img src="https://img.elesite-next.com/rosen_icon/nishitetsu_omuta/9000%E5%BD%A29000.webp" class="modal-train-img" alt="列車">
+          <img id="modalTrainImg" src="https://img.elesite-next.com/rosen_icon/nishitetsu_omuta/9000%E5%BD%A29000.webp" class="modal-train-img" alt="列車">
           <div class="modal-sharyo-text" id="modalSharyoText">----</div>
         </div>
         <div class="modal-header-info">
@@ -604,6 +614,7 @@
 
     const TOTAL_ROWS = 148;
     const TARGET_API = "https://busnavi-railway.nnr.co.jp/tenjin_omuta/tenjin-omuta.json";
+    const DEFAULT_ICON = "https://img.elesite-next.com/rosen_icon/nishitetsu_omuta/9000%E5%BD%A29000.webp";
 
     const PROXY_GENERATORS = [
       (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -648,7 +659,7 @@
     function isHolidayJST() {
       const now = new Date();
       const day = now.getDay();
-      return (day === 0 || day === 6); // 土日判定 (※祝日も含める場合はライブラリ等が必要ですが基本は土日判定)
+      return (day === 0 || day === 6);
     }
 
     async function fetchWithRetry(url) {
@@ -863,7 +874,6 @@
           wrapper.appendChild(icon);
         }
 
-        // クリック時に詳細表示を開く
         wrapper.onclick = (e) => {
           e.stopPropagation();
           openDetailModal(info);
@@ -871,6 +881,26 @@
       }
 
       targetCell.appendChild(wrapper);
+    }
+
+    /* ----------------------------------------------------
+       ④ 車両番号（sharyo_list）の文字サイズ動的調整関数
+    ---------------------------------------------------- */
+    function adjustSharyoFontSize(text) {
+      const el = document.getElementById("modalSharyoText");
+      el.textContent = text;
+
+      if (!text) return;
+      const len = text.length;
+      if (len > 18) {
+        el.style.fontSize = "0.5rem";
+      } else if (len > 13) {
+        el.style.fontSize = "0.58rem";
+      } else if (len > 8) {
+        el.style.fontSize = "0.65rem";
+      } else {
+        el.style.fontSize = "0.72rem";
+      }
     }
 
     /* ----------------------------------------------------
@@ -882,23 +912,27 @@
       const modalTitle = document.getElementById("modalTitle");
       const modalTrainNo = document.getElementById("modalTrainNo");
       const modalCarsDoors = document.getElementById("modalCarsDoors");
-      const modalSharyoText = document.getElementById("modalSharyoText");
+      const modalTrainImg = document.getElementById("modalTrainImg");
       const modalBody = document.getElementById("modalBody");
 
       const formattedNum = formatTrainNumber(trainInfo.trainNumber);
       const colorType = trainInfo.trainColorType || "loc";
 
-      // ヘッダーデザインセット
+      // ③ モーダル内のスクロール位置を常に最上部にリセット
+      modalBody.scrollTop = 0;
+
+      // ヘッダー基本情報をセット
       header.className = `modal-header color-${colorType}`;
       modalTitle.textContent = `${trainInfo.trainType || ''} ${trainInfo.destStationName || ''}行`;
       modalTrainNo.textContent = `第${formattedNum}列車`;
       modalCarsDoors.textContent = `${trainInfo.carsOfTrain || 0}両${trainInfo.doorsOfCar || 0}ドア`;
-      modalSharyoText.textContent = "取得中...";
+      modalTrainImg.src = DEFAULT_ICON;
+      adjustSharyoFontSize("取得中...");
       modalBody.innerHTML = `<div class="timetable-loading">時刻表データ取得中...</div>`;
 
       modal.classList.add("active");
 
-      // 日付・曜日判定
+      // 日付・曜日・時間パラメータ設定
       const now = new Date();
       const isHoliday = isHolidayJST();
       const year = now.getFullYear();
@@ -912,12 +946,25 @@
       const dayId = isHoliday ? "1114" : "1113";
       const timetableFile = isHoliday ? "timetable_donichi.json" : "timetable_hei.json";
 
-      // 1. 車両番号（車番）情報の非同期取得
-      fetchTrainPositionSplit(formattedNum, currentTimeStr, dateStr, dayId).then(sharyo => {
-        modalSharyoText.textContent = sharyo || "----";
+      // 1. 車両番号・アイコン画像（sharyo_icon_path_list）情報の非同期取得
+      fetchTrainPositionSplit(formattedNum, currentTimeStr, dateStr, dayId).then(data => {
+        adjustSharyoFontSize(data.sharyo || "----");
+
+        // ⑤ アイコン画像の動的更新（絶対パス構築）
+        if (data.iconPath) {
+          let cleanPath = data.iconPath.startsWith('/') ? data.iconPath : `/${data.iconPath}`;
+          modalTrainImg.src = `https://img.elesite-next.com${cleanPath}`;
+        } else {
+          modalTrainImg.src = DEFAULT_ICON;
+        }
       });
 
-      // 2. 時刻表データの非同期取得（キャッシュ利用）
+      // 画像ロードエラー時のフォールバック設定
+      modalTrainImg.onerror = () => {
+        modalTrainImg.src = DEFAULT_ICON;
+      };
+
+      // 2. 時刻表データの非同期取得
       try {
         if (!timetableDataCache || cachedIsHoliday !== isHoliday) {
           const rawTtUrl = `https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/${timetableFile}`;
@@ -941,11 +988,15 @@
           `;
 
           trainTimetable.forEach(st => {
+            // ① null や未定義の場合は空文字（表示なし）にする
+            const arriveTime = (st.arrive !== null && st.arrive !== undefined) ? st.arrive : "";
+            const departTime = (st.depart !== null && st.depart !== undefined) ? st.depart : "";
+
             tableHtml += `
               <tr>
-                <td>${st.station}</td>
-                <td class="time-col">${st.arrive || '--:--'}</td>
-                <td class="time-col">${st.depart || '--:--'}</td>
+                <td>${st.station || ""}</td>
+                <td class="time-col">${arriveTime}</td>
+                <td class="time-col">${departTime}</td>
               </tr>
             `;
           });
@@ -961,6 +1012,9 @@
       }
     }
 
+    /* ----------------------------------------------------
+       車番＆車両アイコンパス取得API呼び出し関数の拡張
+    ---------------------------------------------------- */
     async function fetchTrainPositionSplit(retsuban, currentTime, selectDate, dayId) {
       try {
         const apiUrl = `https://www.elesite-next.com/fastapi/get_train_position_split?rosen_code=nishitetsu_omuta&current_time=${currentTime}&day_id=${dayId}&select_date=${selectDate}&second=0&concat_mode=false&route_id=283`;
@@ -969,13 +1023,25 @@
         if (res && res.train_position) {
           const match = res.train_position.find(t => t.retsuban === retsuban);
           if (match) {
-            return match.sharyo_list || match.shotei || "";
+            let iconPath = "";
+            if (match.sharyo_icon_path_list) {
+              if (Array.isArray(match.sharyo_icon_path_list) && match.sharyo_icon_path_list.length > 0) {
+                iconPath = match.sharyo_icon_path_list[0];
+              } else if (typeof match.sharyo_icon_path_list === 'string') {
+                iconPath = match.sharyo_icon_path_list;
+              }
+            }
+
+            return {
+              sharyo: match.sharyo_list || match.shotei || "",
+              iconPath: iconPath
+            };
           }
         }
       } catch (e) {
         console.error("車番データ取得エラー:", e);
       }
-      return "";
+      return { sharyo: "", iconPath: "" };
     }
 
     function closeModal(e) {
