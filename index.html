@@ -398,9 +398,12 @@
       flex-direction: column;
       align-items: center;
       width: 90px;
+      height: 70px;
       flex-shrink: 0;
+      justify-content: center;
     }
 
+    /* 画像確定まで非表示（fade-in）にする指定 */
     .modal-train-img {
       width: 80px;
       height: 52px;
@@ -408,9 +411,14 @@
       background: #ffffff;
       border-radius: 4px;
       border: 1px solid rgba(255,255,255,0.4);
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
     }
 
-    /* ④ 改行させず、枠内に収める車番表示 */
+    .modal-train-img.loaded {
+      opacity: 1;
+    }
+
     .modal-sharyo-text {
       font-size: 0.72rem;
       font-weight: 800;
@@ -501,7 +509,6 @@
       font-weight: 700;
     }
 
-    /* ② 文字サイズ・スタイルの統一 */
     .timetable-table td.time-col {
       text-align: right;
       font-family: 'Inter', sans-serif;
@@ -883,9 +890,6 @@
       targetCell.appendChild(wrapper);
     }
 
-    /* ----------------------------------------------------
-       ④ 車両番号（sharyo_list）の文字サイズ動的調整関数
-    ---------------------------------------------------- */
     function adjustSharyoFontSize(text) {
       const el = document.getElementById("modalSharyoText");
       el.textContent = text;
@@ -904,7 +908,7 @@
     }
 
     /* ----------------------------------------------------
-       モーダル制御＆時刻表・車番取得処理
+       モーダル制御＆時刻表・車番・画像取得処理
     ---------------------------------------------------- */
     async function openDetailModal(trainInfo) {
       const modal = document.getElementById("detailModal");
@@ -918,15 +922,20 @@
       const formattedNum = formatTrainNumber(trainInfo.trainNumber);
       const colorType = trainInfo.trainColorType || "loc";
 
-      // ③ モーダル内のスクロール位置を常に最上部にリセット
+      // スクロール位置リセット
       modalBody.scrollTop = 0;
+
+      // 画像を一度非表示化＆イベントリセット
+      modalTrainImg.classList.remove("loaded");
+      modalTrainImg.onload = null;
+      modalTrainImg.onerror = null;
+      modalTrainImg.src = "";
 
       // ヘッダー基本情報をセット
       header.className = `modal-header color-${colorType}`;
       modalTitle.textContent = `${trainInfo.trainType || ''} ${trainInfo.destStationName || ''}行`;
       modalTrainNo.textContent = `第${formattedNum}列車`;
       modalCarsDoors.textContent = `${trainInfo.carsOfTrain || 0}両${trainInfo.doorsOfCar || 0}ドア`;
-      modalTrainImg.src = DEFAULT_ICON;
       adjustSharyoFontSize("取得中...");
       modalBody.innerHTML = `<div class="timetable-loading">時刻表データ取得中...</div>`;
 
@@ -946,11 +955,20 @@
       const dayId = isHoliday ? "1114" : "1113";
       const timetableFile = isHoliday ? "timetable_donichi.json" : "timetable_hei.json";
 
-      // 1. 車両番号・アイコン画像（sharyo_icon_path_list）情報の非同期取得
+      // 1. 車両番号・アイコン画像情報の非同期取得
       fetchTrainPositionSplit(formattedNum, currentTimeStr, dateStr, dayId).then(data => {
         adjustSharyoFontSize(data.sharyo || "----");
 
-        // ⑤ アイコン画像の動的更新（絶対パス構築）
+        // 画像の読み込み完了（またはエラー）後に表示する処理
+        modalTrainImg.onload = () => {
+          modalTrainImg.classList.add("loaded");
+        };
+
+        modalTrainImg.onerror = () => {
+          modalTrainImg.onerror = null; // ループ防止
+          modalTrainImg.src = DEFAULT_ICON;
+        };
+
         if (data.iconPath) {
           let cleanPath = data.iconPath.startsWith('/') ? data.iconPath : `/${data.iconPath}`;
           modalTrainImg.src = `https://img.elesite-next.com${cleanPath}`;
@@ -958,11 +976,6 @@
           modalTrainImg.src = DEFAULT_ICON;
         }
       });
-
-      // 画像ロードエラー時のフォールバック設定
-      modalTrainImg.onerror = () => {
-        modalTrainImg.src = DEFAULT_ICON;
-      };
 
       // 2. 時刻表データの非同期取得
       try {
@@ -988,7 +1001,6 @@
           `;
 
           trainTimetable.forEach(st => {
-            // ① null や未定義の場合は空文字（表示なし）にする
             const arriveTime = (st.arrive !== null && st.arrive !== undefined) ? st.arrive : "";
             const departTime = (st.depart !== null && st.depart !== undefined) ? st.depart : "";
 
@@ -1012,9 +1024,6 @@
       }
     }
 
-    /* ----------------------------------------------------
-       車番＆車両アイコンパス取得API呼び出し関数の拡張
-    ---------------------------------------------------- */
     async function fetchTrainPositionSplit(retsuban, currentTime, selectDate, dayId) {
       try {
         const apiUrl = `https://www.elesite-next.com/fastapi/get_train_position_split?rosen_code=nishitetsu_omuta&current_time=${currentTime}&day_id=${dayId}&select_date=${selectDate}&second=0&concat_mode=false&route_id=283`;
