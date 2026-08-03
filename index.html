@@ -694,7 +694,7 @@
     function formatTrainNumber(rawStr) {
       if (!rawStr || rawStr.length < 10) return "****";
       let c4 = rawStr.charAt(3), c6 = rawStr.charAt(5), c8 = rawStr.charAt(7), c10 = rawStr.charAt(9);
-      if (rawStr.charAt(2) === '4') c4 = ALPHA_MAP[c4] || c4;
+     if (rawStr.charAt(2) === '4' || rawStr.charAt(2) === '5') c4 = ALPHA_MAP[c4] || c4;
       return `${c4}${c6}${c8}${c10}`;
     }
 
