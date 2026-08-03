@@ -679,6 +679,36 @@
 
     let timetableDataCache = null;
     let cachedIsHoliday = null;
+    let holidaysCache = null;
+
+    // 祝日リストを取得して土日祝判定を行う関数
+    async function isHolidayOrWeekend(dateStr) {
+      // 土日判定 (0: 日曜, 6: 土曜)
+      const now = new Date(dateStr);
+      const day = now.getDay();
+      if (day === 0 || day === 6) {
+        return true;
+      }
+
+      // 祝日APIのキャッシュが無ければ取得
+      if (!holidaysCache) {
+        try {
+          const res = await fetch("https://holidays-jp.github.io/api/v1/date.json");
+          if (res.ok) {
+            holidaysCache = await res.json();
+          }
+        } catch (e) {
+          console.error("祝日APIの取得に失敗しました:", e);
+        }
+      }
+
+      // YYYY-MM-DD 形式が祝日APIに含まれているかチェック
+      if (holidaysCache && holidaysCache[dateStr]) {
+        return true;
+      }
+
+      return false;
+    }
 
     function isSingleTrackRow(row) {
       return (row >= 85 && row <= 94) || (row >= 112 && row <= 130);
@@ -1001,7 +1031,7 @@
 
       // 日付・曜日・時間パラメータ設定
       const now = new Date();
-      const isHoliday = isHolidayJST();
+      const isHoliday = await isHolidayOrWeekend(dateStr)
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const date = String(now.getDate()).padStart(2, '0');
@@ -1009,6 +1039,7 @@
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const currentTimeStr = `${hours}:${minutes}`;
+      
 
       const dayId = isHoliday ? "1113" : "1112";
       const timetableFile = isHoliday ? "timetable_donichi.json" : "timetable_hei.json";
