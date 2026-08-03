@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>天神大牟田線 列車在線位置</title>
+  <!-- Excel読み込み用 SheetJS ライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Inter:wght@600;800;900&display=swap');
 
@@ -18,515 +21,146 @@
       --single-track-line: #f59e0b;
 
       /* 種別カラー */
-      --color-loc: #3b82f6; /* 普通（青系） */
-      --color-exp: #16a34a; /* 急行（緑系） */
-      --color-ltd: #dc2626; /* 特急（赤系） */
-      --color-def: #64748b; /* その他 */
+      --color-loc: #3b82f6; /* 普通 */
+      --color-exp: #16a34a; /* 急行 */
+      --color-ltd: #dc2626; /* 特急 */
+      --color-out: #64748b; /* 回送 */
+      --color-sight: #ffffff; /* 観光 */
+      --color-def: #64748b;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', 'BIZ UDPGothic', -apple-system, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       padding: 0 5px 10px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* ヘッダーの固定表示 */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      width: 100%;
+      position: sticky; top: 0; z-index: 100; width: 100%;
       background-color: rgba(148, 255, 239, 0.95);
       backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      padding: 8px 0;
-      margin-bottom: 10px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      padding: 8px 0; margin-bottom: 10px;
+      text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px;
       border-bottom: 3px solid #C30000;
     }
 
-    h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
+    h2 { font-size: 1.2rem; font-weight: 700; }
 
-    .status-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .status-bar {
-      font-size: 0.75rem;
-      color: var(--text-sub);
-    }
+    .status-container { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .status-bar { font-size: 0.75rem; color: var(--text-sub); }
 
     .reload-btn {
-      background-color: #c30000;
-      color: #ffffff;
-      border: none;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      border-radius: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background-color: #c30000; color: #ffffff; border: none;
+      padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 16px;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
     }
 
-    .reload-btn:hover { background-color: #334155; }
-
-    .header-alerts {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
+    .header-alerts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
     .alert-badge {
-      background-color: #dc2626;
-      color: #ffffff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
-      animation: pulse 2s infinite;
+      background-color: #dc2626; color: #ffffff; font-size: 0.72rem;
+      font-weight: 800; padding: 2px 8px; border-radius: 4px;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.85; }
-    }
-
-    /* 路線図全体コンテナ */
     .diagram-container {
-      width: 100%;
-      max-width: 480px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 10px 4px;
-      background: var(--card-bg);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      width: 100%; max-width: 480px; border: 1px solid #e2e8f0; border-radius: 8px;
+      padding: 10px 4px; background: var(--card-bg); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
-    .terminals {
-      text-align: center;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-sub);
-      padding: 2px 0;
-    }
+    .terminals { text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--text-sub); }
 
     .diagram-grid {
-      display: grid;
-      grid-template-columns: 46px 46px 150px 46px 46px;
-      justify-content: center;
-      row-gap: 0px;
+      display: grid; grid-template-columns: 46px 46px 150px 46px 46px;
+      justify-content: center; row-gap: 0px;
     }
 
     .grid-row { display: contents; }
-
-    .grid-cell {
-      height: 48px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .grid-cell { height: 48px; position: relative; display: flex; align-items: center; justify-content: center; }
 
     .track-cell::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 2px;
-      background-color: var(--line-color);
-      transform: translateX(-50%);
-      z-index: 1;
+      content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 2px; background-color: var(--line-color); transform: translateX(-50%); z-index: 1;
     }
 
     .grid-row.is-single-track .track-cell::before { display: none; }
     .grid-row.is-single-track .grid-cell { background-color: var(--single-track-bg); }
-
     .grid-row.is-single-track .station-center-cell::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 3px;
-      background-color: var(--single-track-line);
-      transform: translateX(-50%);
-      z-index: 1;
+      content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 3px; background-color: var(--single-track-line); transform: translateX(-50%); z-index: 1;
     }
 
     .grid-row[data-row="1"] .track-cell::before { top: 50%; }
     .grid-row[data-row="148"] .track-cell::before { bottom: 50%; }
 
-    .station-center-cell {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
-
-    .station-node {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background-color: var(--card-bg);
-      border: 3px solid #334155;
-      z-index: 3;
-    }
-
+    .station-center-cell { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; }
+    .station-node { width: 13px; height: 13px; border-radius: 50%; background-color: var(--card-bg); border: 3px solid #334155; z-index: 3; }
     .station-info {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      white-space: nowrap;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 1px 6px;
-      border-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      gap: 3px;
+      position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap;
+      background: rgba(255, 255, 255, 0.95); padding: 1px 6px; border-radius: 4px; z-index: 4;
+      display: flex; align-items: center; gap: 3px;
     }
+    .station-number { background: #0284c7; color: #fff; font-size: 0.68rem; font-weight: 800; padding: 1px 4px; border-radius: 3px; }
+    .station-name { font-size: 0.88rem; font-weight: 800; color: var(--station-text); text-decoration: underline; }
 
-    .station-number {
-      display: inline-block;
-      background: #0284c7;
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 3px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .station-name {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--station-text);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .station-row .track-cell::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      height: 1px;
-      background-color: #cbd5e1;
-      transform: translateY(-50%);
-      z-index: 1;
-    }
-
-    .train-wrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      cursor: pointer;
-    }
-
-    .single-section-center .train-wrapper { z-index: 10; }
-
-    .delay-badge {
-  color: #dc2626;            /* 赤文字 */
-  font-size: 0.8rem;        /* 文字サイズ */
-  font-weight: 900;
-  font-family: 'Inter', sans-serif;
-  line-height: 1;
-  padding: 1px 0;
-  z-index: 20;
-  text-shadow: 0px 0px 2px #fff, 0px 0px 2px #fff; /* 文字が見やすいように白枠線影 */
-  white-space: nowrap;
-  margin: 1px 0;
-}
+    .train-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; cursor: pointer; }
+    .delay-badge { color: #dc2626; font-size: 0.8rem; font-weight: 900; line-height: 1; z-index: 20; text-shadow: 0px 0px 2px #fff; }
 
     .train-icon {
-      position: relative;
-      width: 42px;
-      height: 44px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid transparent;
-      box-sizing: border-box;
-      filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.25));
-      transition: transform 0.1s ease;
+      position: relative; width: 42px; height: 44px; display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between; border: 1px solid transparent; box-sizing: border-box;
+      filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.25)); transition: transform 0.1s ease;
     }
-
-    .train-icon:hover {
-      transform: scale(1.08);
-    }
+    .train-icon:hover { transform: scale(1.08); }
 
     .train-icon.color-loc { border-color: var(--color-loc); background-color: var(--color-loc); color: var(--color-loc); }
     .train-icon.color-exp { border-color: var(--color-exp); background-color: var(--color-exp); color: var(--color-exp); }
     .train-icon.color-ltd { border-color: var(--color-ltd); background-color: var(--color-ltd); color: var(--color-ltd); }
+    .train-icon.color-out { border-color: #475569; background-color: var(--color-out); color: var(--color-out); }
+    .train-icon.color-sight { border-color: #0284c7; background-color: var(--color-sight); color: #0284c7; }
+    .train-icon.color-sight .train-dest-box { color: #0f172a; }
     .train-icon.color-def, .train-icon.color-multi { border-color: var(--color-def); background-color: var(--color-def); color: var(--color-def); }
 
-    .train-icon.train-down {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
-      padding-bottom: 3px;
-    }
+    .train-icon.train-down { clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%); padding-bottom: 3px; }
+    .train-icon.train-up { clip-path: polygon(50% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%); padding-top: 3px; }
 
-    .train-icon.train-up {
-      clip-path: polygon(50% 0%, 100% 20%, 100% 100%, 0% 100%, 0% 20%);
-      padding-top: 3px;
-    }
+    .train-number-box { width: 100%; background-color: #ffffff; font-size: 0.6rem; font-weight: 800; text-align: center; color: inherit; }
+    .train-dest-box { color: #ffffff; font-size: 0.68rem; font-weight: 700; text-align: center; margin: auto 0; }
+    .train-cars-badge { background-color: #ffffff; color: #000000; font-size: 0.58rem; font-weight: 800; padding: 0px 5px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .multi-count-box { color: #ffffff; font-size: 1.1rem; font-weight: 900; margin: auto 0; }
 
-    .train-number-box {
-      width: 100%;
-      background-color: #ffffff;
-      font-size: 0.6rem;
-      font-weight: 800;
-      text-align: center;
-      padding: 0px 0;
-      line-height: 1.1;
-      color: inherit;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .train-dest-box {
-      color: #ffffff;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-align: center;
-      line-height: 1;
-      letter-spacing: -0.5px;
-      margin: auto 0;
-    }
-
-    .train-cars-badge {
-      background-color: #ffffff;
-      color: #000000;
-      font-size: 0.58rem;
-      font-weight: 800;
-      padding: 0px 5px;
-      border-radius: 8px;
-      line-height: 1.1;
-      border: 1px solid #e2e8f0;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .train-icon.color-multi .multi-count-box {
-      color: #ffffff;
-      font-size: 1.1rem;
-      font-weight: 900;
-      font-family: 'Inter', sans-serif;
-      margin: auto 0;
-    }
-
-    /* ----------------------------------------------------
-       モーダル（ポップアップ詳細画面）のスタイリング
-    ---------------------------------------------------- */
+    /* モーダル */
     .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s;
     }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-card {
-      width: 90%;
-      max-width: 380px;
-      max-height: 85vh;
-      background-color: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      border: 2px solid #cbd5e1;
-    }
-
-    /* 詳細ヘッダー */
-    .modal-header {
-      background-color: var(--color-loc);
-      color: #ffffff;
-      padding: 12px 14px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      position: relative;
-    }
-
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-card { width: 90%; max-width: 380px; max-height: 85vh; background-color: #ffffff; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; border: 2px solid #cbd5e1; }
+    .modal-header { background-color: var(--color-loc); color: #ffffff; padding: 12px 14px; display: flex; gap: 12px; align-items: center; position: relative; }
     .modal-header.color-exp { background-color: var(--color-exp); }
     .modal-header.color-ltd { background-color: var(--color-ltd); }
+    .modal-header.color-out { background-color: var(--color-out); }
+    .modal-header.color-sight { background-color: #0284c7; color: #ffffff; }
     .modal-header.color-def { background-color: var(--color-def); }
-
-    .modal-train-img-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 90px;
-      height: 70px;
-      flex-shrink: 0;
-      justify-content: center;
-    }
-
-    /* 画像確定まで非表示（fade-in）にする指定 */
-    .modal-train-img {
-      width: 80px;
-      height: 52px;
-      object-fit: contain;
-      background: #ffffff;
-      border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.4);
-      opacity: 0;
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    .modal-train-img.loaded {
-      opacity: 1;
-    }
-
-    .modal-sharyo-text {
-      font-size: 0.72rem;
-      font-weight: 800;
-      margin-top: 3px;
-      color: #ffffff;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      line-height: 1.1;
-    }
-
-    .modal-header-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .modal-title-main {
-      font-size: 1.25rem;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    .modal-sub-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: 2px;
-    }
-
-    .modal-train-no {
-      font-size: 1.05rem;
-      font-weight: 800;
-    }
-
-    .modal-cars-doors {
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 6px;
-      right: 10px;
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1.5rem;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .modal-close-btn:hover { color: #ffffff; }
-
-    /* モーダル時刻表テーブル */
-    .modal-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px;
-    }
-
-    .timetable-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .timetable-table th {
-      text-align: left;
-      padding: 6px 8px;
-      color: var(--text-main);
-      border-bottom: 2px solid #e2e8f0;
-      font-weight: 800;
-      font-size: 0.85rem;
-    }
-
-    .timetable-table th.time-col {
-      text-align: right;
-      width: 70px;
-    }
-
-    .timetable-table td {
-      padding: 8px 8px;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .timetable-table td.time-col {
-      text-align: right;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .timetable-loading {
-      text-align: center;
-      padding: 30px;
-      color: var(--text-sub);
-      font-size: 0.9rem;
-    }
+    .modal-train-img-container { display: flex; flex-direction: column; align-items: center; width: 90px; height: 70px; flex-shrink: 0; justify-content: center; }
+    .modal-train-img { width: 80px; height: 52px; object-fit: contain; background: #ffffff; border-radius: 4px; opacity: 0; transition: opacity 0.2s; }
+    .modal-train-img.loaded { opacity: 1; }
+    .modal-sharyo-text { font-size: 0.72rem; font-weight: 800; margin-top: 3px; color: #ffffff; text-align: center; white-space: nowrap; overflow: hidden; width: 100%; }
+    .modal-header-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .modal-title-main { font-size: 1.25rem; font-weight: 900; }
+    .modal-sub-info { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 2px; }
+    .modal-train-no { font-size: 1.05rem; font-weight: 800; }
+    .modal-cars-doors { font-size: 0.85rem; font-weight: 700; }
+    .modal-close-btn { position: absolute; top: 6px; right: 10px; background: none; border: none; color: rgba(255, 255, 255, 0.8); font-size: 1.5rem; cursor: pointer; }
+    .modal-body { flex: 1; overflow-y: auto; padding: 12px; }
+    .timetable-table { width: 100%; border-collapse: collapse; }
+    .timetable-table th, .timetable-table td { padding: 6px 8px; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem; font-weight: 700; }
+    .timetable-table th.time-col, .timetable-table td.time-col { text-align: right; }
+    .timetable-loading { text-align: center; padding: 30px; color: var(--text-sub); }
   </style>
 </head>
 <body>
@@ -570,58 +204,36 @@
   </div>
 
   <script>
+    /* ----------------------------------------------------
+       ★ GitHubのExcelファイルURL設定箇所
+    ---------------------------------------------------- */
+    const GITHUB_EXCEL_URLS = {
+      mon: "https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/1.xlsx",
+      tue: "https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/1.xlsx",
+      wed: "https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/1.xlsx",
+      thu: "https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/1.xlsx",
+      fri: "https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/1.xlsx",
+      holiday: "https://raw.githubusercontent.com/ユーザー名/リポジトリ名/main/holiday.xlsx"
+    };
+
     const STATIONS = [
-      { row: 1, name: "西鉄福岡(天神)", num: "T01" },
-      { row: 4, name: "薬院", num: "T02" },
-      { row: 7, name: "西鉄平尾", num: "T03" },
-      { row: 10, name: "高宮", num: "T04" },
-      { row: 13, name: "大橋", num: "T05" },
-      { row: 16, name: "井尻", num: "T06" },
-      { row: 19, name: "雑餉隈", num: "T07" },
-      { row: 22, name: "桜並木", num: "T08" },
-      { row: 25, name: "春日原", num: "T09" },
-      { row: 28, name: "白木原", num: "T10" },
-      { row: 31, name: "下大利", num: "T11" },
-      { row: 34, name: "都府楼前", num: "T12" },
-      { row: 37, name: "西鉄二日市", num: "T13" },
-      { row: 40, name: "紫", num: "T14" },
-      { row: 43, name: "朝倉街道", num: "T15" },
-      { row: 46, name: "桜台", num: "T16" },
-      { row: 49, name: "筑紫", num: "T17" },
-      { row: 52, name: "津古", num: "T18" },
-      { row: 55, name: "三国が丘", num: "T19" },
-      { row: 58, name: "三沢", num: "T20" },
-      { row: 61, name: "大保", num: "T21" },
-      { row: 64, name: "西鉄小郡", num: "T22" },
-      { row: 67, name: "端間", num: "T23" },
-      { row: 70, name: "味坂", num: "T24" },
-      { row: 73, name: "宮の陣", num: "T25" },
-      { row: 76, name: "櫛原", num: "T26" },
-      { row: 79, name: "西鉄久留米", num: "T27" },
-      { row: 82, name: "花畑", num: "T28" },
-      { row: 85, name: "聖マリア病院前", num: "T29" },
-      { row: 88, name: "津福", num: "T30" },
-      { row: 91, name: "安武", num: "T31" },
-      { row: 94, name: "大善寺", num: "T32" },
-      { row: 97, name: "三潴", num: "T33" },
-      { row: 100, name: "犬塚", num: "T34" },
-      { row: 103, name: "大溝", num: "T35" },
-      { row: 106, name: "八丁牟田", num: "T36" },
-      { row: 109, name: "蒲池", num: "T37" },
-      { row: 112, name: "矢加部", num: "T38" },
-      { row: 115, name: "西鉄柳川", num: "T39" },
-      { row: 118, name: "徳益", num: "T40" },
-      { row: 121, name: "塩塚", num: "T41" },
-       { row: 123, name: "中島信号場", num: "信" },
-      { row: 124, name: "西鉄中島", num: "T42" },
-      { row: 127, name: "江の浦", num: "T43" },
-      { row: 130, name: "開", num: "T44" },
-      { row: 133, name: "西鉄渡瀬", num: "T45" },
-      { row: 136, name: "倉永", num: "T46" },
-      { row: 139, name: "東甘木", num: "T47" },
-      { row: 142, name: "西鉄銀水", num: "T48" },
-      { row: 145, name: "新栄町", num: "T49" },
-      { row: 148, name: "大牟田", num: "T50" }
+      { row: 1, name: "西鉄福岡(天神)", num: "T01" }, { row: 4, name: "薬院", num: "T02" }, { row: 7, name: "西鉄平尾", num: "T03" },
+      { row: 10, name: "高宮", num: "T04" }, { row: 13, name: "大橋", num: "T05" }, { row: 16, name: "井尻", num: "T06" },
+      { row: 19, name: "雑餉隈", num: "T07" }, { row: 22, name: "桜並木", num: "T08" }, { row: 25, name: "春日原", num: "T09" },
+      { row: 28, name: "白木原", num: "T10" }, { row: 31, name: "下大利", num: "T11" }, { row: 34, name: "都府楼前", num: "T12" },
+      { row: 37, name: "西鉄二日市", num: "T13" }, { row: 40, name: "紫", num: "T14" }, { row: 43, name: "朝倉街道", num: "T15" },
+      { row: 46, name: "桜台", num: "T16" }, { row: 49, name: "筑紫", num: "T17" }, { row: 52, name: "津古", num: "T18" },
+      { row: 55, name: "三国が丘", num: "T19" }, { row: 58, name: "三沢", num: "T20" }, { row: 61, name: "大保", num: "T21" },
+      { row: 64, name: "西鉄小郡", num: "T22" }, { row: 67, name: "端間", num: "T23" }, { row: 70, name: "味坂", num: "T24" },
+      { row: 73, name: "宮の陣", num: "T25" }, { row: 76, name: "櫛原", num: "T26" }, { row: 79, name: "西鉄久留米", num: "T27" },
+      { row: 82, name: "花畑", num: "T28" }, { row: 85, name: "聖マリア病院前", num: "T29" }, { row: 88, name: "津福", num: "T30" },
+      { row: 91, name: "安武", num: "T31" }, { row: 94, name: "大善寺", num: "T32" }, { row: 97, name: "三潴", num: "T33" },
+      { row: 100, name: "犬塚", num: "T34" }, { row: 103, name: "大溝", num: "T35" }, { row: 106, name: "八丁牟田", num: "T36" },
+      { row: 109, name: "蒲池", num: "T37" }, { row: 112, name: "矢加部", num: "T38" }, { row: 115, name: "西鉄柳川", num: "T39" },
+      { row: 118, name: "徳益", num: "T40" }, { row: 121, name: "塩塚", num: "T41" }, { row: 123, name: "中島信号場", num: "信" },
+      { row: 124, name: "西鉄中島", num: "T42" }, { row: 127, name: "江の浦", num: "T43" }, { row: 130, name: "開", num: "T44" },
+      { row: 133, name: "西鉄渡瀬", num: "T45" }, { row: 136, name: "倉永", num: "T46" }, { row: 139, name: "東甘木", num: "T47" },
+      { row: 142, name: "西鉄銀水", num: "T48" }, { row: 145, name: "新栄町", num: "T49" }, { row: 150, name: "大牟田", num: "T50" }
     ];
 
     const TOTAL_ROWS = 148;
@@ -632,27 +244,27 @@
       (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
       (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
       (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
-      (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-      (url) => `https://jsonp.afeld.me/?url=${encodeURIComponent(url)}`
+      (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
     ];
 
     const ALPHA_MAP = { '1':'A', '7':'G', 'A':'J', 'B':'K', 'C':'L', 'D':'H', '5':'S' };
-    const TYPE_PRIORITY = { 'ltd': 3, 'exp': 2, 'loc': 1 };
+    const TYPE_PRIORITY = { 'ltd': 5, 'exp': 4, 'sight': 3, 'loc': 2, 'out': 1 };
 
     let timetableDataCache = null;
     let cachedIsHoliday = null;
+    let manualScheduleList = [];
+    let currentLoadedDayKey = "";
 
     function isSingleTrackRow(row) {
       return (row >= 85 && row <= 94) || (row >= 112 && row <= 130);
     }
 
     const stationRowSet = new Set(STATIONS.map(s => s.row));
-    function isStationRow(row) {
-      return stationRowSet.has(row);
-    }
+    function isStationRow(row) { return stationRowSet.has(row); }
 
     function formatTrainNumber(rawStr) {
-      if (!rawStr || rawStr.length < 10) return "****";
+      if (!rawStr) return "****";
+      if (rawStr.length < 10) return rawStr;
       let c4 = rawStr.charAt(3), c6 = rawStr.charAt(5), c8 = rawStr.charAt(7), c10 = rawStr.charAt(9);
       if (rawStr.charAt(2) === '4') c4 = ALPHA_MAP[c4] || c4;
       return `${c4}${c6}${c8}${c10}`;
@@ -664,14 +276,112 @@
         "西鉄福岡（天神）": "福岡", "西鉄福岡(天神)": "福岡",
         "西鉄二日市": "二日市", "西鉄小郡": "小郡", "西鉄久留米": "久留米", "西鉄柳川": "柳川"
       };
-      if (replaceRules[name]) return replaceRules[name];
-      return name.replace(/^西鉄/, "").substring(0, 3);
+      return replaceRules[name] || name.replace(/^西鉄/, "").substring(0, 3);
     }
 
     function isHolidayJST() {
-      const now = new Date();
-      const day = now.getDay();
+      const day = new Date().getDay();
       return (day === 0 || day === 6);
+    }
+
+    function getTodayKey() {
+      const day = new Date().getDay();
+      if (day === 0 || day === 6) return "holiday";
+      const dayKeys = ["holiday", "mon", "tue", "wed", "thu", "fri", "holiday"];
+      return dayKeys[day];
+    }
+
+    // HH:mm または HH:mm:ss 文字列を「その日の開始からの経過秒数」に変換
+    function timeToSeconds(timeStr) {
+      if (!timeStr) return null;
+      const parts = String(timeStr).trim().split(':');
+      if (parts.length < 2) return null;
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const s = parts.length >= 3 ? parseInt(parts[2], 10) : 0;
+      return h * 3600 + m * 60 + s;
+    }
+
+    async function fetchGitHubExcel() {
+      const dayKey = getTodayKey();
+      const excelUrl = GITHUB_EXCEL_URLS[dayKey];
+
+      if (!excelUrl || excelUrl.includes("ユーザー名")) return;
+      if (currentLoadedDayKey === dayKey && manualScheduleList.length > 0) return;
+
+      try {
+        const response = await fetch(excelUrl);
+        if (!response.ok) throw new Error("Excel取得失敗");
+        
+        const arrayBuffer = await response.arrayBuffer();
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        
+        manualScheduleList = XLSX.utils.sheet_to_json(firstSheet);
+        currentLoadedDayKey = dayKey;
+        console.log(`GitHub Excel(${dayKey})をロード完了: ${manualScheduleList.length}件の区間情報`);
+      } catch (err) {
+        console.error("GitHub Excel読み込みエラー:", err);
+      }
+    }
+
+    /* ----------------------------------------------------
+       補間アルゴリズム：時刻から現在のrowを自動算出
+    ---------------------------------------------------- */
+    function getActiveManualTrains() {
+      if (!manualScheduleList || manualScheduleList.length === 0) return [];
+
+      const now = new Date();
+      const currentSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+      const activeList = [];
+
+      manualScheduleList.forEach(item => {
+        const depSec = timeToSeconds(item.depTime);
+        const arrSec = timeToSeconds(item.arrTime);
+        const depRow = parseInt(item.depRow, 10);
+        const arrRow = parseInt(item.arrRow, 10);
+
+        if (depSec === null || arrSec === null || isNaN(depRow) || isNaN(arrRow)) return;
+
+        // 現在時刻がこの「発〜着」の範囲内に入っている場合のみ計算
+        if (currentSec >= depSec && currentSec <= arrSec) {
+          let calculatedRow = depRow;
+
+          if (arrSec > depSec) {
+            // 時間の通過割合（0.0 〜 1.0）
+            const progress = (currentSec - depSec) / (arrSec - depSec);
+            // 比例計算して現在のrowを決定
+            calculatedRow = Math.round(depRow + (arrRow - depRow) * progress);
+          }
+
+          let colorType = "def";
+          const typeStr = String(item.trainType || "");
+          if (typeStr.includes("回送")) colorType = "out";
+          else if (typeStr.includes("観光")) colorType = "sight";
+          else if (typeStr.includes("特急")) colorType = "ltd";
+          else if (typeStr.includes("急行")) colorType = "exp";
+          else if (typeStr.includes("普通")) colorType = "loc";
+
+          activeList.push({
+            locationRow: String(calculatedRow),
+            locationCol: item.isUp == 1 ? "2" : "3",
+            trainDirection: String(item.isUp),
+            trainInfoObjects: [{
+              trainNumber: String(item.trainNumber || "回送"),
+              trainType: typeStr,
+              destStationName: String(item.destStationName || "---"),
+              carsOfTrain: String(item.cars || "4"),
+              doorsOfCar: String(item.doors || "3"),
+              trainColorType: colorType,
+              delayMinutes: "0"
+            }]
+          });
+        }
+      });
+
+      return activeList;
     }
 
     async function fetchWithRetry(url) {
@@ -732,38 +442,26 @@
       const scrollPos = window.scrollY;
 
       try {
+        await fetchGitHubExcel();
+
         const data = await fetchWithRetry(TARGET_API);
         document.querySelectorAll(".train-wrapper").forEach(el => el.remove());
 
-        if (data && data.locationObjects) {
-          const rowGroups = {};
-          let hasSevereDelay = false;
-          let hasExtraTrain = false;
+        const manualLocations = getActiveManualTrains();
+        const rawLocations = (data && data.locationObjects) ? data.locationObjects : [];
+        const combinedLocations = [...rawLocations, ...manualLocations];
 
-          data.locationObjects.forEach(loc => {
+        if (combinedLocations.length > 0) {
+          const rowGroups = {};
+
+          combinedLocations.forEach(loc => {
             const row = parseInt(loc.locationRow, 10);
             const col = parseInt(loc.locationCol, 10);
 
             if (row === 0 || isNaN(row) || col < 1 || col > 4) return;
 
-            if (!rowGroups[row]) {
-              rowGroups[row] = { up: [], down: [] };
-            }
-
+            if (!rowGroups[row]) rowGroups[row] = { up: [], down: [] };
             const trains = loc.trainInfoObjects || [];
-
-            trains.forEach(t => {
-              const d = parseInt(t.delayTime ?? t.delay ?? 0, 10);
-              if (d >= 10) hasSevereDelay = true;
-
-              const formattedNum = formatTrainNumber(t.trainNumber);
-              if (formattedNum.length >= 2) {
-                const char2 = formattedNum.charAt(1);
-                if (char2 === '9' || char2 === '4' || char2 === 'D') {
-                  hasExtraTrain = true;
-                }
-              }
-            });
 
             if (loc.trainDirection === "1") {
               rowGroups[row].up.push(...trains);
@@ -772,10 +470,10 @@
             }
           });
 
-          let alertHtml = "";
-          if (hasSevereDelay) alertHtml += `<div class="alert-badge">⚠️ 遅延発生</div>`;
-          if (hasExtraTrain) alertHtml += `<div class="alert-badge">⚠️ 臨時列車在線</div>`;
-          headerAlerts.innerHTML = alertHtml;
+          if (manualScheduleList.length > 0) {
+            const dayNames = { mon: "月", tue: "火", wed: "水", thu: "木", fri: "金", holiday: "土日祝" };
+            headerAlerts.innerHTML = `<div class="alert-badge" style="background:#059669;">📋 ${dayNames[currentLoadedDayKey]}曜ダイヤ適用中</div>`;
+          }
 
           let totalCount = 0;
 
@@ -789,42 +487,24 @@
               const allTrains = [...group.up, ...group.down];
               if (allTrains.length > 0) {
                 totalCount += allTrains.length;
-                const isUp = group.up.length > 0;
-                renderIconToCell(row, "center", allTrains, isUp);
+                renderIconToCell(row, "center", allTrains, group.up.length > 0);
               }
             } else {
               if (group.up.length > 0) {
                 totalCount += group.up.length;
                 group.up.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
-
-                if (group.up.length === 1) renderIconToCell(row, 2, [group.up[0]], true);
-                else if (group.up.length === 2) {
-                  renderIconToCell(row, 2, [group.up[0]], true);
-                  renderIconToCell(row, 1, [group.up[1]], true);
-                } else {
-                  renderIconToCell(row, 2, [group.up[0]], true);
-                  renderIconToCell(row, 1, group.up.slice(1), true);
-                }
+                renderIconToCell(row, 2, group.up, true);
               }
 
               if (group.down.length > 0) {
                 totalCount += group.down.length;
                 group.down.sort((a, b) => (TYPE_PRIORITY[b.trainColorType] || 0) - (TYPE_PRIORITY[a.trainColorType] || 0));
-
-                if (group.down.length === 1) renderIconToCell(row, 3, [group.down[0]], false);
-                else if (group.down.length === 2) {
-                  renderIconToCell(row, 3, [group.down[0]], false);
-                  renderIconToCell(row, 4, [group.down[1]], false);
-                } else {
-                  renderIconToCell(row, 3, [group.down[0]], false);
-                  renderIconToCell(row, 4, group.down.slice(1), false);
-                }
+                renderIconToCell(row, 3, group.down, false);
               }
             }
           });
 
-          const now = new Date();
-         statusBar.textContent = `更新: ${now.toLocaleTimeString()} （在線${totalCount}本）`;
+          statusBar.textContent = `更新: ${new Date().toLocaleTimeString()} （在線${totalCount}本）`;
         }
       } catch (err) {
         console.error(err);
@@ -835,12 +515,9 @@
     }
 
     function renderIconToCell(row, targetCol, trains, isUp) {
-      let targetCell = null;
-      if (targetCol === "center") {
-        targetCell = document.querySelector(`.grid-row[data-row="${row}"] .station-center-cell`);
-      } else {
-        targetCell = document.querySelector(`.grid-row[data-row="${row}"] .grid-cell[data-col="${targetCol}"]`);
-      }
+      let targetCell = targetCol === "center"
+        ? document.querySelector(`.grid-row[data-row="${row}"] .station-center-cell`)
+        : document.querySelector(`.grid-row[data-row="${row}"] .grid-cell[data-col="${targetCol}"]`);
 
       if (!targetCell || trains.length === 0) return;
 
@@ -850,221 +527,32 @@
 
       const icon = document.createElement("div");
 
-      // 遅延分数の取得（数字以外の文字を取り除いて数値化）
-      let delayVal = 0;
-      if (trains.length === 1) {
-        const rawDelay = trains[0].delayMinutes || trains[0].delayTime || trains[0].delay || "0";
-        delayVal = parseInt(String(rawDelay).replace(/[^0-9]/g, ''), 10) || 0;
-      }
-      
-      // 遅延バッジ（1分以上の場合に表示）
-     // 遅延バッジ（1分以上の場合に表示：「+1」などの形式）
-    const delayBadgeHtml = delayVal > 0 ? `<div class="delay-badge">+${delayVal}</div>` : "";
-
-    if (trains.length > 1) {
-      icon.className = `train-icon ${dirClass} color-multi`;
-      const details = trains.map(t => `・[${t.trainType}] ${formatStationName(t.destStationName)}行 (${formatTrainNumber(t.trainNumber)})`).join("\n");
-      icon.title = `【${trains.length}本重複】\n${details}`;
-      icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
-      
-      wrapper.appendChild(icon);
-    } else {
-      const info = trains[0];
-      const colorType = info.trainColorType || "loc";
-      const formattedTrainNum = formatTrainNumber(info.trainNumber);
-      const destShortName = formatStationName(info.destStationName);
-      const carsDoorsCombined = `${info.carsOfTrain || "0"}${info.doorsOfCar || "0"}`;
-
-      icon.className = `train-icon ${dirClass} color-${colorType}`;
-      icon.title = `列車番号: ${formattedTrainNum}\n種別: ${info.trainType}\n行先: ${info.destStationName}\n編成: ${info.carsOfTrain}両 / ${info.doorsOfCar}ドア${delayVal > 0 ? `\n遅延: ${delayVal}分` : ''}`;
-
-      const numberBox = `<div class="train-number-box">${formattedTrainNum}</div>`;
-      const destBox = `<div class="train-dest-box">${destShortName}</div>`;
-      const carsBadge = `<div class="train-cars-badge">${carsDoorsCombined}</div>`;
-
-      icon.innerHTML = isUp ? `${carsBadge}${destBox}${numberBox}` : `${numberBox}${destBox}${carsBadge}`;
-
-      // ▼ここを修正：上りと下りでバッジとアイコンの追加順を変更
-      if (isUp) {
-        // 上り：アイコンを先に追加し、下にバッジを追加
+      if (trains.length > 1) {
+        icon.className = `train-icon ${dirClass} color-multi`;
+        icon.innerHTML = `<div class="multi-count-box">${trains.length}</div>`;
         wrapper.appendChild(icon);
-        if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
       } else {
-        // 下り：上にバッジを追加し、その後にアイコンを追加
-        if (delayBadgeHtml) wrapper.insertAdjacentHTML('beforeend', delayBadgeHtml);
-        wrapper.appendChild(icon);
-      }
+        const info = trains[0];
+        const colorType = info.trainColorType || "loc";
+        const formattedTrainNum = formatTrainNumber(info.trainNumber);
+        const destShortName = formatStationName(info.destStationName);
+        const carsDoorsCombined = `${info.carsOfTrain || "0"}${info.doorsOfCar || "0"}`;
 
-      wrapper.onclick = (e) => {
-        e.stopPropagation();
-        openDetailModal(info);
-      };
-    }
+        icon.className = `train-icon ${dirClass} color-${colorType}`;
+        const numberBox = `<div class="train-number-box">${formattedTrainNum}</div>`;
+        const destBox = `<div class="train-dest-box">${destShortName}</div>`;
+        const carsBadge = `<div class="train-cars-badge">${carsDoorsCombined}</div>`;
+
+        icon.innerHTML = isUp ? `${carsBadge}${destBox}${numberBox}` : `${numberBox}${destBox}${carsBadge}`;
+        wrapper.appendChild(icon);
+
+        wrapper.onclick = (e) => {
+          e.stopPropagation();
+          openDetailModal(info);
+        };
+      }
 
       targetCell.appendChild(wrapper);
-    }
-
-    function adjustSharyoFontSize(text) {
-      const el = document.getElementById("modalSharyoText");
-      el.textContent = text;
-
-      if (!text) return;
-      const len = text.length;
-      if (len > 18) {
-        el.style.fontSize = "0.5rem";
-      } else if (len > 13) {
-        el.style.fontSize = "0.58rem";
-      } else if (len > 8) {
-        el.style.fontSize = "0.65rem";
-      } else {
-        el.style.fontSize = "0.72rem";
-      }
-    }
-
-    /* ----------------------------------------------------
-       モーダル制御＆時刻表・車番・画像取得処理
-    ---------------------------------------------------- */
-    async function openDetailModal(trainInfo) {
-      const modal = document.getElementById("detailModal");
-      const header = document.getElementById("modalHeader");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalTrainNo = document.getElementById("modalTrainNo");
-      const modalCarsDoors = document.getElementById("modalCarsDoors");
-      const modalTrainImg = document.getElementById("modalTrainImg");
-      const modalBody = document.getElementById("modalBody");
-
-      const formattedNum = formatTrainNumber(trainInfo.trainNumber);
-      const colorType = trainInfo.trainColorType || "loc";
-
-      // スクロール位置リセット
-      modalBody.scrollTop = 0;
-
-      // 画像を一度非表示化＆イベントリセット
-      modalTrainImg.classList.remove("loaded");
-      modalTrainImg.onload = null;
-      modalTrainImg.onerror = null;
-      modalTrainImg.src = "";
-
-      // ヘッダー基本情報をセット
-      header.className = `modal-header color-${colorType}`;
-      modalTitle.textContent = `${trainInfo.trainType || ''} ${trainInfo.destStationName || ''}行`;
-      modalTrainNo.textContent = `第${formattedNum}列車`;
-      modalCarsDoors.textContent = `${trainInfo.carsOfTrain || 0}両${trainInfo.doorsOfCar || 0}ドア`;
-      adjustSharyoFontSize("取得中...");
-      modalBody.innerHTML = `<div class="timetable-loading">時刻表データ取得中...</div>`;
-
-      modal.classList.add("active");
-
-      // 日付・曜日・時間パラメータ設定
-      const now = new Date();
-      const isHoliday = isHolidayJST();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const date = String(now.getDate()).padStart(2, '0');
-      const dateStr = `${year}-${month}-${date}`;
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const currentTimeStr = `${hours}:${minutes}`;
-
-      const dayId = isHoliday ? "1113" : "1112";
-      const timetableFile = isHoliday ? "timetable_donichi.json" : "timetable_hei.json";
-
-      // 1. 車両番号・アイコン画像情報の非同期取得
-      fetchTrainPositionSplit(formattedNum, currentTimeStr, dateStr, dayId).then(data => {
-        adjustSharyoFontSize(data.sharyo || "----");
-
-        // 画像の読み込み完了（またはエラー）後に表示する処理
-        modalTrainImg.onload = () => {
-          modalTrainImg.classList.add("loaded");
-        };
-
-        modalTrainImg.onerror = () => {
-          modalTrainImg.onerror = null; // ループ防止
-          modalTrainImg.src = DEFAULT_ICON;
-        };
-
-        if (data.iconPath) {
-          let cleanPath = data.iconPath.startsWith('/') ? data.iconPath : `/${data.iconPath}`;
-          modalTrainImg.src = `https://img.elesite-next.com${cleanPath}`;
-        } else {
-          modalTrainImg.src = DEFAULT_ICON;
-        }
-      });
-
-      // 2. 時刻表データの非同期取得
-      try {
-        if (!timetableDataCache || cachedIsHoliday !== isHoliday) {
-          const rawTtUrl = `https://raw.githubusercontent.com/sakuraps1134/nishitetsu-tid/main/${timetableFile}`;
-          const res = await fetch(rawTtUrl);
-          timetableDataCache = await res.json();
-          cachedIsHoliday = isHoliday;
-        }
-
-        const trainTimetable = timetableDataCache[formattedNum];
-        if (trainTimetable && trainTimetable.length > 0) {
-          let tableHtml = `
-            <table class="timetable-table">
-              <thead>
-                <tr>
-                  <th>停車駅</th>
-                  <th class="time-col">着時刻</th>
-                  <th class="time-col">発時刻</th>
-                </tr>
-              </thead>
-              <tbody>
-          `;
-
-          trainTimetable.forEach(st => {
-            const arriveTime = (st.arrive !== null && st.arrive !== undefined) ? st.arrive : "";
-            const departTime = (st.depart !== null && st.depart !== undefined) ? st.depart : "";
-
-            tableHtml += `
-              <tr>
-                <td>${st.station || ""}</td>
-                <td class="time-col">${arriveTime}</td>
-                <td class="time-col">${departTime}</td>
-              </tr>
-            `;
-          });
-
-          tableHtml += `</tbody></table>`;
-          modalBody.innerHTML = tableHtml;
-        } else {
-          modalBody.innerHTML = `<div class="timetable-loading">該当する時刻表が見つかりませんでした</div>`;
-        }
-      } catch (err) {
-        console.error("時刻表取得エラー:", err);
-        modalBody.innerHTML = `<div class="timetable-loading">時刻表の取得に失敗しました</div>`;
-      }
-    }
-
-    async function fetchTrainPositionSplit(retsuban, currentTime, selectDate, dayId) {
-      try {
-        const apiUrl = `https://www.elesite-next.com/fastapi/get_train_position_split?rosen_code=nishitetsu_omuta&current_time=${currentTime}&day_id=${dayId}&select_date=${selectDate}&second=0&concat_mode=false&route_id=283`;
-        const res = await fetchWithRetry(apiUrl);
-
-        if (res && res.train_position) {
-          const match = res.train_position.find(t => t.retsuban === retsuban);
-          if (match) {
-            let iconPath = "";
-            if (match.sharyo_icon_path_list) {
-              if (Array.isArray(match.sharyo_icon_path_list) && match.sharyo_icon_path_list.length > 0) {
-                iconPath = match.sharyo_icon_path_list[0];
-              } else if (typeof match.sharyo_icon_path_list === 'string') {
-                iconPath = match.sharyo_icon_path_list;
-              }
-            }
-
-            return {
-              sharyo: match.sharyo_list || match.shotei || "",
-              iconPath: iconPath
-            };
-          }
-        }
-      } catch (e) {
-        console.error("車番データ取得エラー:", e);
-      }
-      return { sharyo: "", iconPath: "" };
     }
 
     function closeModal(e) {
@@ -1082,7 +570,7 @@
       buildGrid();
       while (true) {
         await fetchAndRender();
-        await new Promise(resolve => setTimeout(resolve, 12000));
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 画面位置更新を滑らかにするため5秒間隔に短縮
       }
     }
 
