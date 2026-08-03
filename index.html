@@ -17,11 +17,49 @@
       --single-track-bg: rgba(245, 158, 11, 0.08);
       --single-track-line: #f59e0b;
 
-      /* 種別カラー */
-      --color-loc: #3b82f6; /* 普通（青系） */
-      --color-exp: #16a34a; /* 急行（緑系） */
-      --color-ltd: #dc2626; /* 特急（赤系） */
-      --color-def: #64748b; /* その他 */
+     /* 種別カラー定義の変更・追加 */
+    --color-loc: #3b82f6; /* 普通（青系） */
+    --color-exp: #16a34a; /* 急行（緑系） */
+    --color-ltd: #dc2626; /* 特急（赤系） */
+    --color-def: #64748b; /* その他 */
+    --color-ous: #64748b; /* 回送（灰色） */
+    --color-sig: #dc2626; /* 観光（赤系） */
+
+    /* ----- アイコンのスタイル調整 ----- */
+    /* 回送 (ous): 背景灰色、枠線灰色 */
+    .train-icon.color-ous {
+      border-color: var(--color-ous);
+      background-color: var(--color-ous);
+      color: var(--color-ous);
+    }
+
+    /* 観光 (sig): 背景白、文字・枠線赤 */
+    .train-icon.color-sig {
+      border-color: var(--color-sig);
+      background-color: #ffffff;
+      color: var(--color-sig);
+    }
+    .train-icon.color-sig .train-dest-box {
+      color: var(--color-sig); /* 列車名の文字色も赤にする */
+    }
+
+    /* ----- 詳細画面（モーダル）のスタイル調整 ----- */
+    /* 回送 (ous): 背景色を灰色 */
+    .modal-header.color-ous {
+      background-color: var(--color-ous);
+      color: #ffffff;
+    }
+
+    /* 観光 (sig): 背景白、赤枠線、文字色赤 */
+    .modal-header.color-sig {
+      background-color: #ffffff;
+      color: var(--color-sig);
+      border: 2px solid var(--color-sig);
+    }
+    .modal-header.color-sig .modal-sharyo-text,
+    .modal-header.color-sig .modal-close-btn {
+      color: var(--color-sig);
+    }
     }
 
     * {
@@ -751,6 +789,8 @@
             }
 
             const trains = loc.trainInfoObjects || [];
+            // 臨時列車判定から除外する列車番号（必要に応じて追加・変更してください）
+    const IGNORE_EXTRA_TRAIN_NUMBERS = ["0480", "0491","0400"];
 
             trains.forEach(t => {
               const d = parseInt(t.delayTime ?? t.delay ?? 0, 10);
@@ -759,8 +799,12 @@
               const formattedNum = formatTrainNumber(t.trainNumber);
               if (formattedNum.length >= 2) {
                 const char2 = formattedNum.charAt(1);
+                // 2文字目が '9', '4', 'D' の場合
                 if (char2 === '9' || char2 === '4' || char2 === 'D') {
-                  hasExtraTrain = true;
+                  // 除外リストに含まれていない場合のみ「臨時列車在線」として判定
+                  if (!IGNORE_EXTRA_TRAIN_NUMBERS.includes(formattedNum)) {
+                    hasExtraTrain = true;
+                  }
                 }
               }
             });
@@ -773,8 +817,8 @@
           });
 
           let alertHtml = "";
-          if (hasSevereDelay) alertHtml += `<div class="alert-badge">⚠️ 遅延発生</div>`;
-          if (hasExtraTrain) alertHtml += `<div class="alert-badge">⚠️ 臨時列車在線</div>`;
+          if (hasSevereDelay) alertHtml += `<div class="alert-badge">遅延発生</div>`;
+          if (hasExtraTrain) alertHtml += `<div class="alert-badge">臨時列車在線</div>`;
           headerAlerts.innerHTML = alertHtml;
 
           let totalCount = 0;
