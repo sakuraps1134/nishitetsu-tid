@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>天神大牟田線 列車在線位置</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/sakuraps1134/nnrtid-loginmenu/main/iconnishitetsu.PNG" type="image/x-icon">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Inter:wght@600;800;900&display=swap');
 
@@ -119,7 +120,36 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
+      position: relative;
       border-bottom: 3px solid #C30000;
+    }
+    /* メニューに戻るボタンのスタイル */
+   
+
+    
+   
+
+    .back-menu-btn {
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      background-color: #ffffff;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 16px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .back-menu-btn:hover {
+      background-color: #f1f5f9;
     }
 
     h2 {
@@ -594,6 +624,7 @@
 <body>
 
   <header>
+    <a href="https://sakuraps1134.github.io/nnrtid-loginmenu/" class="back-menu-btn">‹ メニュー</a>
     <h2>天神大牟田線 列車在線位置</h2>
     <div class="status-container">
       <button class="reload-btn" onclick="manualReload()">↺ 更新</button>
