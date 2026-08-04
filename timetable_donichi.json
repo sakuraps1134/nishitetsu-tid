@@ -50575,5 +50575,413 @@
       "arrive": "23:59",
       "depart": null
     }
+  ],
+   "0050": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "05:04"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "05:08",
+      "depart": null
+    }
+  ],
+  "0550": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "05:07"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "05:12",
+      "depart": null
+    }
+  ],
+  "0552": [
+    {
+      "station": "花畑",
+      "arrive": null,
+      "depart": "05:17"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "05:19",
+      "depart": null
+    }
+  ],
+  "0053": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "05:20"
+    },
+    {
+      "station": "花畑",
+      "arrive": "05:38",
+      "depart": null
+    }
+  ],
+  "0051": [
+    {
+      "station": "西鉄柳川",
+      "arrive": null,
+      "depart": "05:20"
+    },
+    {
+      "station": "大牟田",
+      "arrive": "05:33",
+      "depart": null
+    }
+  ],
+  "0560": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "05:26"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "05:32",
+      "depart": null
+    }
+  ],
+  "0071": [
+    {
+      "station": "花畑",
+      "arrive": null,
+      "depart": "07:50"
+    },
+    {
+      "station": "津福",
+      "arrive": "07:52",
+      "depart": "07:56"
+    },
+    {
+      "station": "西鉄柳川",
+      "arrive": "08:15",
+      "depart": null
+    }
+  ],
+  "0660": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "16:36"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "16:46",
+      "depart": null
+    }
+  ],
+  "0161": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "16:56"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "17:04",
+      "depart": null
+    }
+  ],
+  "0220": [
+    {
+      "station": "西鉄久留米",
+      "arrive": null,
+      "depart": "22:18"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "22:32",
+      "depart": null
+    }
+  ],
+  "0230": [
+    {
+      "station": "西鉄小郡",
+      "arrive": null,
+      "depart": "23:25"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "23:31",
+      "depart": null
+    }
+  ],
+  "0232": [
+    {
+      "station": "西鉄久留米",
+      "arrive": null,
+      "depart": "23:47"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "23:59",
+      "depart": null
+    }
+  ],
+  "0234": [
+    {
+      "station": "大牟田",
+      "arrive": null,
+      "depart": "23:54"
+    },
+    {
+      "station": "西鉄柳川",
+      "arrive": "00:14",
+      "depart": null
+    }
+  ],
+  "0631": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "23:39"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "23:45",
+      "depart": null
+    }
+  ],
+  "0231": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "23:45"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "23:50",
+      "depart": null
+    }
+  ],
+  "0633": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "23:59"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "00:06",
+      "depart": null
+    }
+  ],
+  "0241": [
+    {
+      "station": "西鉄二日市",
+      "arrive": null,
+      "depart": "00:08"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "00:14",
+      "depart": null
+    }
+  ],
+  "0980": [
+    {
+      "station": "筑紫",
+      "arrive": null,
+      "depart": "08:24"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "08:30",
+      "depart": "08:32"
+    },
+    {
+      "station": "春日原",
+      "arrive": "08:40",
+      "depart": "08:47"
+    },
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": "09:03",
+      "depart": null
+    }
+  ],
+  "0991": [
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": null,
+      "depart": "09:22"
+    },
+    {
+      "station": "春日原",
+      "arrive": "09:37",
+      "depart": "09:43"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "10:06",
+      "depart": "10:11"
+    },
+    {
+      "station": "花畑",
+      "arrive": "10:25",
+      "depart": null
+    }
+  ],
+  "0900": [
+    {
+      "station": "花畑",
+      "arrive": null,
+      "depart": "10:43"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "11:02",
+      "depart": "11:19"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "11:26",
+      "depart": "11:33"
+    },
+    {
+      "station": "春日原",
+      "arrive": "11:40",
+      "depart": "11:46"
+    },
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": "12:02",
+      "depart": null
+    }
+  ],
+  "0921": [
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": null,
+      "depart": "12:22"
+    },
+    {
+      "station": "大橋",
+      "arrive": "12:28",
+      "depart": null
+    }
+  ],
+  "0920": [
+    {
+      "station": "大橋",
+      "arrive": null,
+      "depart": "12:35"
+    },
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": "12:43",
+      "depart": null
+    }
+  ],
+  "0923": [
+    {
+      "station": "西鉄福岡(天神)",
+      "arrive": null,
+      "depart": "12:51"
+    },
+    {
+      "station": "春日原",
+      "arrive": "13:07",
+      "depart": "13:13"
+    },
+    {
+      "station": "西鉄二日市",
+      "arrive": "13:19",
+      "depart": "13:27"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "13:35",
+      "depart": "13:55"
+    },
+    {
+      "station": "花畑",
+      "arrive": "14:11",
+      "depart": "14:35"
+    },
+    {
+      "station": "津福",
+      "arrive": "14:39",
+      "depart": "14:41"
+    },
+    {
+      "station": "西鉄柳川",
+      "arrive": "15:02",
+      "depart": "15:08"
+    },
+    {
+      "station": "江の浦",
+      "arrive": "15:16",
+      "depart": "15:18"
+    },
+    {
+      "station": "大牟田",
+      "arrive": "15:30",
+      "depart": null
+    }
+  ],
+  "0950": [
+    {
+      "station": "大牟田",
+      "arrive": null,
+      "depart": "15:59"
+    },
+    {
+      "station": "江の浦",
+      "arrive": "16:07",
+      "depart": "16:09"
+    },
+    {
+      "station": "西鉄柳川",
+      "arrive": "16:16",
+      "depart": "16:20"
+    },
+    {
+      "station": "大善寺",
+      "arrive": "16:34",
+      "depart": "16:40"
+    },
+    {
+      "station": "安武",
+      "arrive": "16:42",
+      "depart": "16:45"
+    },
+    {
+      "station": "津福",
+      "arrive": "16:47",
+      "depart": "16:50"
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": "16:56",
+      "depart": "16:59"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "17:12",
+      "depart": null
+    },
+    {
+      "station": "西鉄久留米",
+      "arrive": null,
+      "depart": "16:59"
+    },
+    {
+      "station": "西鉄小郡",
+      "arrive": "17:12",
+      "depart": "17:18"
+    },
+    {
+      "station": "筑紫",
+      "arrive": "17:26",
+      "depart": null
+    }
   ]
 }
