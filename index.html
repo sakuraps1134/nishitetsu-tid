@@ -34,10 +34,16 @@
     }
 
     /* 観光 (sig): 背景白、文字・枠線赤 */
+    /* 観光 (sig): 背景白、文字・枠線赤（全周を赤線で囲む） */
     .train-icon.color-sig {
-      border-color: var(--color-sig);
       background-color: #ffffff;
       color: var(--color-sig);
+      border: none; /* 従来のborderを解除 */
+      /* clip-pathで切り取られた形状に沿って赤い外枠線を付与 */
+      filter: drop-shadow( 1px  0px 0px var(--color-sig))
+              drop-shadow(-1px  0px 0px var(--color-sig))
+              drop-shadow( 0px  1px 0px var(--color-sig))
+              drop-shadow( 0px -1px 0px var(--color-sig));
     }
     .train-icon.color-sig .train-dest-box {
       color: var(--color-sig); /* 列車名の文字色も赤にする */
