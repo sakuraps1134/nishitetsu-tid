@@ -57545,9 +57545,20 @@
       "depart": "16:00"
     },
     {
-      "station": "筑紫",
+      "station": "二日市",
       "arrive": "16:16",
       "depart": null
     }
-  ]
+  ],
+  "0961": [
+    {
+      "station": "二日市",
+      "arrive": null,
+      "depart": "16:26"
+    },
+    {
+      "station": "西鉄柳川",
+      "arrive": "16:33",
+      "depart": null
+    }]
 }
